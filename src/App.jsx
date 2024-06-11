@@ -1,59 +1,28 @@
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import MovieList from "./components/MovieList/MovieList";
+import API from "./api";
 
 function App() {
-  // =================================================================================
-  const [movieData, setMovieData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearching, setIsSearching] = useState(false);
 
-  const fetchData = async (url) => {
-    try {
-      const response = await fetch(url, {
-        method: "get",
-        headers: new Headers({
-          Authorization: "Bearer " + import.meta.env.VITE_APP_API_KEY,
-          accept: "application/json",
-        }),
-      })
-      const json = await response.json()
-      return json['results']
-    } 
-    catch (error) {
-      console.error(error)
-    }
-  };
+  const {
+    movieData,
+    fetchPageData,
+    fetchSearchData
+  } = API();
 
-  const fetchPageData = async (page) => {
-    const data = await fetchData(
-      `https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=${page}`
-    )
-    if (!data) return
-    // if page is 1, then all old data is invalid
-    if (page == 1) setMovieData(data)
-    else setMovieData((oldData) => [...oldData, ...data])
-  }
-
-  const fetchSearchData = async (query, page) => {
-    const data = await fetchData(
-      `https://api.themoviedb.org/3/search/movie?query=${query}&page=${page}&language=en-US`
-    )
-    if (!data) return
-    if (page == 1) setMovieData(data)
-    else setMovieData((oldData) => [...oldData, ...data])
-  }
-
-  // initial fetch
   useEffect(() => {
-    fetchPageData(currentPage);
+    fetchPageData(1, false);
   }, []);
+
 
   // helper functions
   const loadMore = () => {
-    if (isSearching) fetchSearchData(searchQuery, currentPage + 1);
-    else fetchPageData(currentPage + 1);
+    if (isSearching) fetchSearchData(searchQuery, currentPage + 1, true);
+    else fetchPageData(currentPage + 1, true);
     setCurrentPage(currentPage + 1);
   };
 
@@ -62,10 +31,9 @@ function App() {
   };
 
   const search = () => {
-    setMovieData([]);
-    fetchSearchData(searchQuery, 1);
     setCurrentPage(1);
     setIsSearching(true);
+    fetchSearchData(searchQuery, 1, false);
   };
   // =================================================================================
   return (
