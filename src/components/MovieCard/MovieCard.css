@@ -1,11 +1,21 @@
 .movie-card {
-    display: flex;
-    flex-direction: column;
     border: 1px solid black;
     margin: 5px;
     background-color: #f8f9fa;
+    margin: auto;
+    width: 17vw;
 }
 
 .movie-card-info {
     text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+    margin: 0;
 }

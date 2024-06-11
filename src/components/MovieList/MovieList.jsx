@@ -1,26 +1,29 @@
 import './MovieList.css'
 import MovieCard from '../MovieCard/MovieCard'
 
+// MovieList.PropTypes = {
+//     movies: PropTypes.array.isRequired,
+// }
+
 function MovieList(props) {
-    let movies = []
-    movies = props['data']['results'];
-    console.log(props['data']['results'])
-    
+    let movies = props.movies;
     return (
-        <div className="movie-card-container">
-        {/* {
+        <section className="movie-card-container">
+        {
             movies.map(movie => {
                 return (
                     <MovieCard
-                        movieImgSrc=""
-                        movieImgAlt=""
+                        movieImgSrc={movie['poster_path'] == null ? 
+                            'https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/144694078/original/42073354247a976027d92a56ded126bc59235d60/send-you-a-random-png.png'
+                            : 'https://image.tmdb.org/t/p/w1280' + movie['poster_path']}
+                        movieImgAlt={'Image of ' + movie['original_title']}
                         movieTitle={movie['original_title']}
-                        movieRating={0}
+                        movieRating={movie['vote_average']}
                     />
                 )
             })
-        } */}
-        </div>
+        }
+        </section>
     )
 }
 

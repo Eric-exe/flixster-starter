@@ -11,10 +11,10 @@ MovieCard.propTypes = {
 function MovieCard(props) {
     return (
         <div className="movie-card">
-            <img src={props.movieImgSrc} alt={props.movieImgAlt}/>
             <div className="movie-card-info">
-                <p><b>{props.movieTitle}</b></p>
-                <p>Rating: {props.movieRating}</p>
+                <img src={props.movieImgSrc} alt={props.movieImgAlt}/>
+                <h4 className="text">{props.movieTitle}</h4>
+                <p className="text">Rating: {props.movieRating}</p>
             </div>
         </div>
     )
