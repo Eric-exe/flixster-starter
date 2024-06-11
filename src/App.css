@@ -1,28 +1,26 @@
-.App {
-  text-align: center;
+#root {
+  background-color: #212529;
 }
 
-.App-header {
-  background-color: #282c34;
+header {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-evenly;
-  color: white;
-  padding: 20px;
+  padding-bottom: 10px;
+  flex-direction: column;
+  text-align: center;
+  background-color: #0d6efd;
 }
 
-@media (max-width: 600px) {
-  .movie-card {
-    width: 100%;
-  }
+#filters {
+  display: flex;
+  justify-content: space-around;
+}
 
-  .search-bar {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .search-bar form {
-    flex-direction: column;
-  }
+footer {
+  background-color: #0d6efd;
+  text-align: center;
+  color: white;
+  min-height: 3%;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
