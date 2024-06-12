@@ -1,0 +1,22 @@
+.movie-content {
+    padding: 10px;
+    background: rgba(255,255,255,0.65);
+    opacity: 90%;
+}
+
+.modal-background-img {
+    background-size: cover;
+}
+
+.modal-movie-img {
+    width: 20vw;
+}
+
+.flex {
+    display: flex;
+}
+
+.movie-stat {
+    margin-left: 1%;
+    overflow: auto;
+}

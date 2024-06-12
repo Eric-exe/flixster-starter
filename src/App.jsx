@@ -1,29 +1,32 @@
-import { useEffect, useState } from "react";
-import "./App.css";
-import MovieList from "./components/MovieList/MovieList";
-import API from "./api";
+import { useEffect, useState } from 'react';
+import './App.css';
+import MovieList from './components/MovieList/MovieList';
+import api from './api';
 
 function App() {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [isSearching, setIsSearching] = useState(false);
+  const [movieData, setMovieData] = useState([]);
+  const [apiReqData, setApiReqData] = useState({'search': 'now-playing', 'page': 1});
+  const [searchQuery, setSearchQuery] = useState('');
+  // const [sortMode, setSortMode] = useState(0);
+  // 0 -> sort pop desc, 1 -> sort pop asc, 2 -> sort alpha
 
-  const {
-    movieData,
-    fetchPageData,
-    fetchSearchData
-  } = API();
+  const { fetchPageData, fetchSearchData } = api();
 
   useEffect(() => {
-    fetchPageData(1, false);
-  }, []);
-
+    if (apiReqData['search'] == 'now-playing') { 
+      fetchPageData(apiReqData['page'], (apiReqData['page'] != 1), setMovieData);
+    }
+    else {
+      fetchSearchData(searchQuery, apiReqData['page'], (apiReqData['page'] != 1), setMovieData);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [apiReqData]);
 
   // helper functions
   const loadMore = () => {
-    if (isSearching) fetchSearchData(searchQuery, currentPage + 1, true);
-    else fetchPageData(currentPage + 1, true);
-    setCurrentPage(currentPage + 1);
+    let searchMode = apiReqData['search'];
+    let page = apiReqData['page'];
+    setApiReqData({'search': searchMode, 'page': page + 1});
   };
 
   const handleSearchChange = (event) => {
@@ -31,10 +34,14 @@ function App() {
   };
 
   const search = () => {
-    setCurrentPage(1);
-    setIsSearching(true);
-    fetchSearchData(searchQuery, 1, false);
+    if (searchQuery == '') {
+      setApiReqData({'search': 'now-playing', 'page': 1});
+    }
+    else {
+      setApiReqData({'search': searchQuery, 'page': 1});
+    }
   };
+
   // =================================================================================
   return (
     <>
@@ -51,14 +58,15 @@ function App() {
               placeholder="Search"
               onChange={handleSearchChange}
             />
-            <button onClick={() => search()}>Search</button>
+            <button onClick={search}>Search</button>
           </span>
 
           <div>
             <label htmlFor="sort-dropdown">Sort: &nbsp;</label>
             <select name="sort-dropdown" id="sort-dropdown">
-              <option value="a">A</option>
-              <option value="b">B</option>
+              <option value="a">Popularity Descending</option>
+              <option value="b">Popularity Ascending</option>
+              <option value="c">A-Z</option>
             </select>
           </div>
         </span>
@@ -67,7 +75,7 @@ function App() {
           <aside>Hello</aside>
           <MovieList movies={movieData} />
         </span>
-        <button id="load-button" onClick={() => loadMore()}>
+        <button id="load-button" onClick={loadMore}>
           Load More
         </button>
       </main>
