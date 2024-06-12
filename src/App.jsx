@@ -89,6 +89,10 @@ function App() {
 
   const updateSearchMode = (mode) => {
     setSearchMode(mode);
+    if (mode == false) {
+      // update api req data, handles when button is pressed
+      setApiReqData({ 'search': '', 'page': 1 });
+    }
   };
 
   const handleSortChange = (event) => {

@@ -39,7 +39,6 @@ const api = () => {
             `https://api.themoviedb.org/3/search/movie?query=${query}&page=${page}&language=en-US`
         )
         .then((data) => {
-            console.log(data);
             if (concat) {
                 funct((oldData) => [...oldData, ...data['results']]);
             }
