@@ -8,7 +8,7 @@ BrowseMode.propTypes = {
 function BrowseMode(props) {
     return (
         <div className='center-v' style={{display: (props.searchMode ? 'none' : 'block')}}>
-            Genres:
+            <button className='button'>Genres</button>
         </div>
     );
 }

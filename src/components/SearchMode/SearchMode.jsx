@@ -15,7 +15,7 @@ function SearchMode(props) {
             placeholder='Search'
             onChange={props.handleSearchChange}
         />
-        <button onClick={props.search}>Search</button>
+        <button className='button' onClick={props.search}>Search</button>
         </div>
     );
 }

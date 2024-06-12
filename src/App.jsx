@@ -75,7 +75,7 @@ function App() {
 
       default:
         break;
-    };
+    }
   }, [sortMode]);
 
   // =================================================================================
@@ -89,9 +89,6 @@ function App() {
 
   const updateSearchMode = (mode) => {
     setSearchMode(mode);
-      // update api req data, handles when button is pressed
-      setApiReqData({ 'search': '', 'page': 1 });
-    }
   };
 
   const handleSortChange = (event) => {
@@ -117,7 +114,8 @@ function App() {
       <main>
         <div id='filters'>
           <div className='flex center-v'>
-            <div className={'button ' + (searchMode ? '' : 'button-active')} onClick={() => updateSearchMode(false)}>Now Playing</div>
+            <div className={'button ' + (searchMode ? '' : 'button-active')} 
+              onClick={() => {updateSearchMode(false); setApiReqData({ 'search': '', 'page': 1 })}}>Now Playing</div>
             <div className={'button ' + (searchMode ? 'button-active' : '')} onClick={() => updateSearchMode(true)}>Search</div>
           </div>
 
