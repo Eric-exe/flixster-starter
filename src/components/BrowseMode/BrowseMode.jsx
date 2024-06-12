@@ -7,8 +7,10 @@ BrowseMode.propTypes = {
 
 function BrowseMode(props) {
     return (
-        <div className='center-v' style={{display: (searchMode ? 'none' : 'block')}}>
+        <div className='center-v' style={{display: (props.searchMode ? 'none' : 'block')}}>
             Genres:
         </div>
     );
 }
+
+export default BrowseMode;

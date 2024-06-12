@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import './App.css';
+import BrowseMode from './components/BrowseMode/BrowseMode';
 import SearchMode from './components/SearchMode/SearchMode';
 import MovieList from './components/Movie/MovieList/MovieList';
 import api from './api';
