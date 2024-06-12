@@ -13,10 +13,10 @@ function MovieList(props) {
         <>
             <section className="movie-card-container">
             {
-                movies.map((movie) => {
+                movies.map((movie, index) => {
                     return (
                         <MovieCard
-                            key={movie['id']}
+                            key={index}
                             movieID={movie['id'].toString()}
                             movieImgSrc={movie['poster_path'] == null ? 
                                 'https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/144694078/original/42073354247a976027d92a56ded126bc59235d60/send-you-a-random-png.png'

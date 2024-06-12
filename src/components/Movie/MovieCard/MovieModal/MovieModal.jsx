@@ -1,7 +1,7 @@
 import './MovieModal.css'
 import propTypes from 'prop-types'
 import { useState, useEffect } from 'react'
-import api from '../../../api'
+import api from '../../../../api'
 
 MovieModal.propTypes = {
     movieID: propTypes.string.isRequired,
@@ -13,7 +13,8 @@ MovieModal.propTypes = {
     movieOverview: propTypes.string.isRequired,
     movieReleaseDate: propTypes.string.isRequired,
     movieRating: propTypes.number.isRequired,
-    movieGenres: propTypes.array.isRequired
+    movieGenres: propTypes.array.isRequired,
+    modalOpened: propTypes.bool.isRequired
 }
 
 function MovieModal(props) {
@@ -25,8 +26,7 @@ function MovieModal(props) {
     useEffect(() => {
         fetchMovieData(props.movieID, setMovieData);
         fetchTrailerData(props.movieID, setTrailerData);
-        console.log(trailerData);
-    }, []);
+    }, [props.movieID]);
 
     let tagline = "";
     let genres = [];
@@ -68,9 +68,9 @@ function MovieModal(props) {
                             <b>Runtime: </b> {runTime} minutes
                         </p>
                         {
-                            <iframe width='100%' height='100%'
-                                src={'https://www.youtube.com/embed/' + trailerID}>
-                            </iframe>
+                            trailerID.length >= 1 && props.modalOpened ? 
+                                <iframe src={"https://www.youtube.com/embed/" + trailerID}></iframe> : 
+                                <p>Trailer not available</p>
                         }
                     </div>
                 </section>

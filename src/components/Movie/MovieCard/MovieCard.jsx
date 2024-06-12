@@ -47,6 +47,7 @@ function MovieCard(props) {
                     movieOverview={props.movieOverview}
                     movieReleaseDate={props.movieReleaseDate}
                     movieRating={props.movieRating}
+                    modalOpened={modalOpened}
                 />
             </div>
         </div>

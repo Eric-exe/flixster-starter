@@ -4,8 +4,12 @@
     background-color: #f8f9fa;
     margin: auto;
     width: 17vw;
+    transition: transform 0.2s;
 }
 
+.movie-card:hover {
+    transform: scale(1.05);
+}
 .movie-card-info {
     text-align: center;
     display: flex;
