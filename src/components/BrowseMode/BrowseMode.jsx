@@ -109,20 +109,24 @@ function BrowseMode(props) {
             className="center-v browse-bar"
             style={{ display: props.searchMode ? "none" : "block" }}
         >
-            <span className="center-v">
-                <label htmlFor="sort-dropdown">Sort by: &nbsp;</label>
-                <select id="sort-dropdown" onChange={handleSortChange}>
-                <option disabled selected>-- Select --</option>
-                <option value="popularity.desc">Popularity Descending</option>
-                <option value="popularity.asc">Popularity Ascending</option>
-                <option value="title.asc">A-Z</option>
-                <option value="title.desc">Z-A</option>
-                <option value="primary_release_date.desc">Latest Release</option>
-                <option value="primary_release_date.asc">Earliest Release</option>
-                <option value="vote_average.desc">Rating Descending</option>
-                <option value="vote_average.asc">Rating Ascending</option>
-                </select>
-            </span>
+            {
+                props.searchMode ? 
+                <></> :
+                <span className="center-v">
+                    <label htmlFor="sort-dropdown">Sort by: &nbsp;</label>
+                    <select id="sort-dropdown" onChange={handleSortChange}>
+                    <option disabled selected>-- Select --</option>
+                    <option value="popularity.desc">Popularity Descending</option>
+                    <option value="popularity.asc">Popularity Ascending</option>
+                    <option value="title.asc">A-Z</option>
+                    <option value="title.desc">Z-A</option>
+                    <option value="primary_release_date.desc">Latest Release</option>
+                    <option value="primary_release_date.asc">Earliest Release</option>
+                    <option value="vote_average.desc">Rating Descending</option>
+                    <option value="vote_average.asc">Rating Ascending</option>
+                    </select>
+                </span>
+            }
 
             <button className="button" onClick={openGenreModal}>
                 Genres

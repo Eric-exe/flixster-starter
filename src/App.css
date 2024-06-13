@@ -9,6 +9,10 @@ header {
   background-color: #0d6efd;
 }
 
+#title-text {
+  color: white;
+}
+
 #filters {
   background-color: #0d6efd;
   display: flex;
@@ -19,19 +23,20 @@ header {
   z-index: 1;
 }
 
-#load-button {
-  display: flex;
-  justify-content: center;
-  margin: auto;
-}
-
 footer {
+  display: flex;
+  justify-content: end;
   background-color: #0d6efd;
   text-align: center;
   color: white;
   min-height: 3%;
   bottom: 0;
   width: 100%;
+}
+
+.margin-h {
+  margin-left: 1%;
+  margin-right: 1%;
 }
 
 .flex {
@@ -57,4 +62,10 @@ footer {
 
 .button:hover {
   background-color: black;
+}
+
+#load-button {
+  display: flex;
+  justify-content: center;
+  margin: 10px auto;
 }

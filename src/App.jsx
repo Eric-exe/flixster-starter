@@ -49,7 +49,17 @@ function App() {
         <>
             <header>
                 <div>
-                    <h1>Flixster</h1>
+                    <h1 id='title-text'>
+                        <svg xmlns="http://www.w3.org/2000/svg" className="center-v" width="32" height="32" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M6 3a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                            <path d="M9 6a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
+                            <path d="M9 6h.5a2 2 0 0 1 1.983 1.738l3.11-1.382A1 1 0 0 1 16 7.269v7.462a1 1 0 0 1-1.406.913l-3.111-1.382A2 2 0 0 1 9.5 16H2a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/>
+                        </svg>
+                    &nbsp;Flixster&nbsp;
+                        <svg xmlns="http://www.w3.org/2000/svg" className="center-v" width="32" height="32" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M0 1a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1zm4 0v6h8V1zm8 8H4v6h8zM1 1v2h2V1zm2 3H1v2h2zM1 7v2h2V7zm2 3H1v2h2zm-2 3v2h2v-2zM15 1h-2v2h2zm-2 3v2h2V4zm2 3h-2v2h2zm-2 3v2h2v-2zm2 3h-2v2h2z"/>
+                        </svg>
+                    </h1>
                 </div>
             </header>
             <main>
@@ -89,12 +99,23 @@ function App() {
 
                 <MovieList movies={movieData} />
 
-                <button id="load-button" onClick={loadMore}>
+                <button className="button" id="load-button" onClick={loadMore} style={{margin: "10px auto"}}>
                     Load More
                 </button>
             </main>
 
-            <footer>Flixster</footer>
+            <footer>
+                
+                <span className="margin-h">
+                    Flixster
+                </span>
+                <span className="margin-h">
+                    <a href="https://google.com" style={{color: 'white'}}>About</a>
+                </span>
+                <span className="margin-h">
+                    <a href="https://google.com" style={{color: 'white'}}>Contact</a>
+                </span>
+            </footer>
         </>
     );
 }
