@@ -1,86 +1,245 @@
-import './BrowseMode.css';
-import propTypes from 'prop-types';
-import { useState } from 'react';
+import "./BrowseMode.css";
+import propTypes from "prop-types";
+import { useState } from "react";
 
 const GENRE_TO_ID = {
-    'Action': 28,
-    'Adventure': 12,
-    'Animation': 16,
-    'Comedy': 35,
-    'Crime': 80,
-    'Documentary': 99,
-    'Drama': 18,
-    'Family': 10751,
-    'Fantasy': 14,
-    'History': 36,
-    'Horror': 27,
-    'Music': 10402,
-    'Mystery': 9648,
-    'Romance': 10749,
-    'Science Fiction': 878,
-    'TV Movie': 10770,
-    'Thriller': 53,
-    'War': 10752,
-    'Western': 37
-}
+    "Action": 28,
+    "Adventure": 12,
+    "Animation": 16,
+    "Comedy": 35,
+    "Crime": 80,
+    "Documentary": 99,
+    "Drama": 18,
+    "Family": 10751,
+    "Fantasy": 14,
+    "History": 36,
+    "Horror": 27,
+    "Music": 10402,
+    "Mystery": 9648,
+    "Romance": 10749,
+    "Science Fiction": 878,
+    "TV Movie": 10770,
+    "Thriller": 53,
+    "War": 10752,
+    "Western": 37,
+};
+
+// default values. if changed, there is a filter
+const MIN_DATE = "0000-01-01";
+const MAX_DATE = "9999-12-31";
+const MIN_RATING = -1;
+const MAX_RATING = 11;
 
 BrowseMode.propTypes = {
     searchMode: propTypes.bool.isRequired,
-}
+    apiSetFunct: propTypes.func.isRequired,
+};
 
 function BrowseMode(props) {
-    const [genres, setGenres] = useState([]);
     const [genreModalOpened, setGenreModalOpened] = useState(false);
+
+    const handleSortChange = (event) => {
+        props.apiSetFunct((oldApiReqData) => {
+            return {
+                search: oldApiReqData["search"],
+                page: 1,
+                filters: oldApiReqData["filters"] + (oldApiReqData["sortMode"] == ""),
+                genres: oldApiReqData["genres"],
+                dateRange: oldApiReqData["dateRange"],
+                ratingRange: oldApiReqData["ratingRange"],
+                sortMode: event.target.value,
+            };
+        });
+    };
+
+    const handleGenreChange = (event) => {
+        if (event.target.checked) {
+            props.apiSetFunct((oldApiReqData) => {
+                let newSet = oldApiReqData["genres"];
+                if (Object.is(newSet, null) || newSet === undefined) newSet = new Set();
+                newSet.add(event.target.value);
+                return {
+                    search: oldApiReqData["search"],
+                    page: 1,
+                    filters: oldApiReqData["filters"] + (oldApiReqData["sortMode"].length == 0),
+                    genres: newSet,
+                    dateRange: oldApiReqData["dateRange"],
+                    ratingRange: oldApiReqData["ratingRange"],
+                    sortMode: oldApiReqData["sortMode"],
+                };
+            });
+        } else {
+            props.apiSetFunct((oldApiReqData) => {
+                let newSet = oldApiReqData["genres"];
+                if (Object.is(newSet, null) || newSet === undefined) newSet = new Set();
+                if (newSet.has(event.target.value)) {
+                    newSet.delete(event.target.value);
+                }
+                return {
+                    search: oldApiReqData["search"],
+                    page: 1,
+                    filters: oldApiReqData["filters"] - (newSet.length == 0),
+                    genres: newSet,
+                    dateRange: oldApiReqData["dateRange"],
+                    ratingRange: oldApiReqData["ratingRange"],
+                    sortMode: oldApiReqData["sortMode"]
+                };
+            });
+        }
+    };
 
     const openGenreModal = () => {
         setGenreModalOpened(true);
-    }
+    };
 
     const closeGenreModal = () => {
         setGenreModalOpened(false);
-    }
+    };
 
     const updateMinDate = (event) => {
-        console.log(event.target.value);
-    }
+        if (event.target.value == "") {
+            props.apiSetFunct((oldApiReqData) => {
+                return {
+                    search: oldApiReqData["search"],
+                    page: 1,
+                    filters: oldApiReqData["filters"] - (oldApiReqData["dateRange"][0] != MIN_DATE),
+                    genres: oldApiReqData["genres"],
+                    dateRange: [MIN_DATE, oldApiReqData["dateRange"][1]],
+                    ratingRange: oldApiReqData["ratingRange"],
+                    sortMode: oldApiReqData["sortMode"],
+                };
+            });
+        } else {
+            props.apiSetFunct((oldApiReqData) => {
+                return {
+                    search: oldApiReqData["search"],
+                    page: 1,
+                    filters: oldApiReqData["filters"] + (oldApiReqData["dateRange"][0] == MIN_DATE),
+                    genres: oldApiReqData["genres"],
+                    dateRange: [new Date(event.target.value).toISOString().slice(0, 10), oldApiReqData["dateRange"][1]],
+                    ratingRange: oldApiReqData["ratingRange"],
+                    sortMode: oldApiReqData["sortMode"],
+                };
+            });
+        }
+    };
+
+    const updateMaxDate = (event) => {
+        if (event.target.value == "") {
+            props.apiSetFunct((oldApiReqData) => {
+                return {
+                    search: oldApiReqData["search"],
+                    page: 1,
+                    filters: oldApiReqData["filters"] - (oldApiReqData["dateRange"][1] != MAX_DATE),
+                    genres: oldApiReqData["genres"],
+                    dateRange: [oldApiReqData["dateRange"][0], MAX_DATE],
+                    ratingRange: oldApiReqData["ratingRange"],
+                    sortMode: oldApiReqData["sortMode"],
+                };
+            });
+        } else {
+            props.apiSetFunct((oldApiReqData) => {
+                return {
+                    search: oldApiReqData["search"],
+                    page: 1,
+                    filters: oldApiReqData["filters"] + (oldApiReqData["dateRange"][1] == MAX_DATE),
+                    genres: oldApiReqData["genres"],
+                    dateRange: [oldApiReqData["dateRange"][0], new Date(event.target.value).toISOString().slice(0, 10)],
+                    ratingRange: oldApiReqData["ratingRange"],
+                    sortMode: oldApiReqData["sortMode"],
+                };
+            });
+        }
+    };
+
+    const updateMinRating = (event) => {
+        props.apiSetFunct((oldApiReqData) => {
+            return {
+                search: oldApiReqData["search"],
+                page: 1,
+                filters: oldApiReqData["filters"] + (oldApiReqData["ratingRange"][0] == MIN_RATING),
+                genres: oldApiReqData["genres"],
+                dateRange: oldApiReqData["dateRange"][0],
+                ratingRange: [event.target.value == "" ? 0 : event.target.value, oldApiReqData["ratingRange"][1]],
+                sortMode: oldApiReqData["sortMode"],
+            };
+        });
+    };
+
+    const updateMaxRating = (event) => {
+        props.apiSetFunct((oldApiReqData) => {
+            return {
+                search: oldApiReqData["search"],
+                page: 1,
+                filters: oldApiReqData["filters"] + (oldApiReqData["ratingRange"][1] == MAX_RATING),
+                genres: oldApiReqData["genres"],
+                dateRange: oldApiReqData["dateRange"][0],
+                ratingRange: [oldApiReqData["ratingRange"][0], event.target.value == "" ? 10 : event.target.value],
+                sortMode: oldApiReqData["sortMode"],
+            };
+        });
+    };
 
     return (
-        <div className='center-v browse-bar' style={{display: (props.searchMode ? 'none' : 'flex')}}>
-            <button className='button' onClick={openGenreModal}>Genres</button>
+        <div
+            className="center-v browse-bar"
+            style={{ display: props.searchMode ? "none" : "flex" }}
+        >
+            <div className="center-v">
+                <label htmlFor="sort-dropdown">Sort by: &nbsp;</label>
+                <select id="sort-dropdown" onChange={handleSortChange}>
+                <option disabled selected>-- Select --</option>
+                <option value="popularity.desc">Popularity Descending</option>
+                <option value="popularity.asc">Popularity Ascending</option>
+                <option value="title.asc">A-Z</option>
+                <option value="title.desc">Z-A</option>
+                <option value="primary_release_date.desc">Latest Release</option>
+                <option value="primary_release_date.asc">Earliest Release</option>
+                <option value="vote_average.desc">Rating Descending</option>
+                <option value="vote_average.asc">Rating Ascending</option>
+                </select>
+            </div>
 
-            <div className='center-v browse-item'>
+            <button className="button" onClick={openGenreModal}>
+                Genres
+            </button>
+
+            <div className="center-v browse-item">
                 Rating Range:&nbsp;
-                <input type='number' min='0' max='10'></input> 
+                <input type="number" min="0" max="10" onChange={updateMinRating}></input>
                 &nbsp;-&nbsp;
-                <input type='number' min='0' max='10'></input>
+                <input type="number" min="0" max="10" onChange={updateMaxRating}></input>
             </div>
 
-            <div className='center-v browse-item'>
+            <div className="center-v browse-item">
                 Release Date:&nbsp;
-                <input type='date' onChange={updateMinDate}></input> 
+                <input type="date" onChange={updateMinDate}></input>
                 &nbsp;-&nbsp;
-                <input type='date'></input>
+                <input type="date" onChange={updateMaxDate}></input>
             </div>
 
-            <div className='modal' style={{display: (genreModalOpened ? 'block' : 'none')}}>
-                <div className='browse-modal-content'>
-
+            <div
+                className="modal"
+                style={{ display: genreModalOpened ? "block" : "none" }}
+            >
+                <div className="browse-modal-content">
                     <div>
-                        <div className='close' onClick={closeGenreModal}>&times;</div>
+                        <div className="close" onClick={closeGenreModal}>
+                            &times;
+                        </div>
                     </div>
 
                     <section>
-                        <h3 className='genre-text'>Genres</h3>
-                        {
-                            Object.entries(GENRE_TO_ID).map((genre, index) => {
-                                return (
-                                    <>
-                                        <input key={index} type='checkbox' id={'genre-' + genre[1]} name={genre[1]} value={genre[1]}/>
-                                        <label htmlFor={'genre-' + genre[1]} className='genre-text'>{genre[0]}</label><br/>
-                                    </>
-                                );
-                            })
-                        }
+                        <h3 className="genre-text">Genres</h3>
+                        {Object.entries(GENRE_TO_ID).map((genre, index) => {
+                            return (
+                                <div key={index}>
+                                    <input type="checkbox" id={"genre-" + genre[1]} name={genre[1]} value={genre[1]} onChange={handleGenreChange}/>
+                                    <label htmlFor={"genre-" + genre[1]} className="genre-text">{genre[0]}</label>
+                                    <br/>
+                                </div>
+                            );
+                        })}
                     </section>
                 </div>
             </div>

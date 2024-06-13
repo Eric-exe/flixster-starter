@@ -32,11 +32,13 @@ function MovieModal(props) {
     let genres = [];
     let runTime = -1;
     let trailerID = "";
-    
-    if (Object.prototype.hasOwnProperty.call(movieData, 'tagline')) tagline = movieData['tagline'];
-    if (Object.prototype.hasOwnProperty.call(movieData, 'genres')) genres = movieData['genres'];
-    if (Object.prototype.hasOwnProperty.call(movieData, 'runtime')) runTime = movieData['runtime'];
-    if (trailerData.length >= 1) trailerID = trailerData[0]['key'];
+
+    if (movieData !== undefined) {
+        if (Object.prototype.hasOwnProperty.call(movieData, 'tagline')) tagline = movieData['tagline'];
+        if (Object.prototype.hasOwnProperty.call(movieData, 'genres')) genres = movieData['genres'];
+        if (Object.prototype.hasOwnProperty.call(movieData, 'runtime')) runTime = movieData['runtime'];
+        if (trailerData.length >= 1) trailerID = trailerData[0]['key'];
+    }
 
     return (
         <div className='modal-content modal-background-img' style={{background: 'url("' + props.backdropSrc + '")'}}>
