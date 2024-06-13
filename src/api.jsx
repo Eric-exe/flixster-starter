@@ -70,7 +70,6 @@ const api = () => {
     };
 
     const fetchFilteredData = async (data, concat, funct) => {
-        console.log(data);
         let genresString = "";
         for (const genreID of data["genres"].entries()) {
             genresString += genreID + "%7C";

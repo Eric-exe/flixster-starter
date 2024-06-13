@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 
 MovieList.propTypes = {
     movies: PropTypes.array.isRequired,
+    watchedFavorited: PropTypes.array.isRequired
 }
 
 function MovieList(props) {
@@ -29,6 +30,7 @@ function MovieList(props) {
                             movieRating={movie['vote_average']}
                             movieOverview={movie['overview']}
                             movieReleaseDate={movie['release_date']}
+                            watchedFavorited={props.watchedFavorited}
                         />
                     );
                 })

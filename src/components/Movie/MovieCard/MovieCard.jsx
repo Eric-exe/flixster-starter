@@ -12,6 +12,7 @@ MovieCard.propTypes = {
     movieRating: PropTypes.number.isRequired,
     movieOverview: PropTypes.string.isRequired,
     movieReleaseDate: PropTypes.string.isRequired,
+    watchedFavorited: PropTypes.array.isRequired
 }
 
 function MovieCard(props) {
@@ -47,6 +48,7 @@ function MovieCard(props) {
                     movieReleaseDate={props.movieReleaseDate}
                     movieRating={props.movieRating}
                     modalOpened={modalOpened}
+                    watchedFavorited={props.watchedFavorited}
                 />
             </div>
         </div>

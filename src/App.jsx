@@ -18,7 +18,10 @@ const DEFAULT_API_REQ_DATA = {
 function App() {
     const [movieData, setMovieData] = useState([]);
     const [apiReqData, setApiReqData] = useState(DEFAULT_API_REQ_DATA);
-    const [searchMode, setSearchMode] = useState(false); // [false: now playing, true: search
+    const [searchMode, setSearchMode] = useState(false); // [false: now playing, true: search]
+
+    const [moviesWatched, setMoviesWatched] = useState(new Set());
+    const [moviesFavorited, setMoviesFavorited] = useState(new Set());
 
     const { fetchPageData, fetchSearchData, fetchFilteredData } = api();
 
@@ -97,7 +100,10 @@ function App() {
                     />
                 </div>
 
-                <MovieList movies={movieData} />
+                <MovieList 
+                    movies={movieData} 
+                    watchedFavorited={[moviesWatched, setMoviesWatched, moviesFavorited, setMoviesFavorited]}
+                />
 
                 <button className="button" id="load-button" onClick={loadMore} style={{margin: "10px auto"}}>
                     Load More
