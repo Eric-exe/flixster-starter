@@ -13,7 +13,6 @@ MovieModal.propTypes = {
     movieOverview: propTypes.string.isRequired,
     movieReleaseDate: propTypes.string.isRequired,
     movieRating: propTypes.number.isRequired,
-    movieGenres: propTypes.array.isRequired,
     modalOpened: propTypes.bool.isRequired
 }
 

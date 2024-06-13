@@ -8,7 +8,7 @@ import api from "./api";
 const DEFAULT_API_REQ_DATA = {
     'search': "",
     'page': 1,
-    'filters': 0, // if not 0, there is at least 1 filter, handle that
+    'filterMode': false,
     'genres': new Set(),
     'dateRange': ["0000-01-01", "9999-12-31"],
     'ratingRange': [-1, 11],
@@ -21,46 +21,25 @@ function App() {
     const [searchMode, setSearchMode] = useState(false); // [false: now playing, true: search
 
     const { fetchPageData, fetchSearchData, fetchFilteredData } = api();
-    // =================================================================================
-    // handle when user requests new data
+
     useEffect(() => {
+        console.log(apiReqData);
         if (apiReqData["search"] == "") {
-            if (apiReqData["filters"] == 0) {
-                fetchPageData(
-                    apiReqData["page"],
-                    apiReqData["page"] != 1,
-                    setMovieData
-                );
+            if (apiReqData["filterMode"]) {
+                fetchFilteredData(apiReqData, apiReqData["page"] != 1, setMovieData);
             } else {
-                fetchFilteredData(
-                    apiReqData["page"],
-                    apiReqData["genres"],
-                    apiReqData["dateRange"],
-                    apiReqData["ratingRange"],
-                    apiReqData["sortMode"],
-                    apiReqData["page"] != 1,
-                    setMovieData
-                )
+                fetchPageData(apiReqData, apiReqData["page"] != 1, setMovieData);
             }
         } else {
-            fetchSearchData(
-                apiReqData["search"],
-                apiReqData["page"],
-                apiReqData["page"] != 1,
-                setMovieData
-            );
+            fetchSearchData(apiReqData, apiReqData["page"] != 1, setMovieData);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [apiReqData]);
 
-    // =================================================================================
-
-    // helper functions
     const loadMore = () => {
         setApiReqData({
             search: apiReqData["search"],
             page: apiReqData["page"] + 1,
-            filters: apiReqData["filters"],
+            filterMode: apiReqData["filterMode"],
             genres: [],
             dateRange: apiReqData["dateRange"],
             ratingRange: apiReqData["ratingRange"],
@@ -72,7 +51,6 @@ function App() {
         setSearchMode(mode);
     };
 
-    // =================================================================================
     return (
         <>
             <header>

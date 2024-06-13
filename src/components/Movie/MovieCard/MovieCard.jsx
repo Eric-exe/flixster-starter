@@ -12,7 +12,6 @@ MovieCard.propTypes = {
     movieRating: PropTypes.number.isRequired,
     movieOverview: PropTypes.string.isRequired,
     movieReleaseDate: PropTypes.string.isRequired,
-    movieGenres: PropTypes.array.isRequired,
 }
 
 function MovieCard(props) {

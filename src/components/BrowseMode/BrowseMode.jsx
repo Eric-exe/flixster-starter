@@ -24,7 +24,7 @@ const GENRE_TO_ID = {
     "Western": 37,
 };
 
-// default values. if changed, there is a filter
+// default values, used if no date or rating is selected
 const MIN_DATE = "0000-01-01";
 const MAX_DATE = "9999-12-31";
 const MIN_RATING = -1;
@@ -41,51 +41,30 @@ function BrowseMode(props) {
     const handleSortChange = (event) => {
         props.apiSetFunct((oldApiReqData) => {
             return {
-                search: oldApiReqData["search"],
-                page: 1,
-                filters: oldApiReqData["filters"] + (oldApiReqData["sortMode"] == ""),
-                genres: oldApiReqData["genres"],
-                dateRange: oldApiReqData["dateRange"],
-                ratingRange: oldApiReqData["ratingRange"],
-                sortMode: event.target.value,
+                ...oldApiReqData,
+                "filterMode": true,
+                "page": 1,
+                "sortMode": event.target.value,
             };
         });
     };
 
     const handleGenreChange = (event) => {
-        if (event.target.checked) {
-            props.apiSetFunct((oldApiReqData) => {
-                let newSet = oldApiReqData["genres"];
-                if (Object.is(newSet, null) || newSet === undefined) newSet = new Set();
-                newSet.add(event.target.value);
-                return {
-                    search: oldApiReqData["search"],
-                    page: 1,
-                    filters: oldApiReqData["filters"] + (oldApiReqData["sortMode"].length == 0),
-                    genres: newSet,
-                    dateRange: oldApiReqData["dateRange"],
-                    ratingRange: oldApiReqData["ratingRange"],
-                    sortMode: oldApiReqData["sortMode"],
-                };
-            });
-        } else {
-            props.apiSetFunct((oldApiReqData) => {
-                let newSet = oldApiReqData["genres"];
-                if (Object.is(newSet, null) || newSet === undefined) newSet = new Set();
-                if (newSet.has(event.target.value)) {
-                    newSet.delete(event.target.value);
-                }
-                return {
-                    search: oldApiReqData["search"],
-                    page: 1,
-                    filters: oldApiReqData["filters"] - (newSet.length == 0),
-                    genres: newSet,
-                    dateRange: oldApiReqData["dateRange"],
-                    ratingRange: oldApiReqData["ratingRange"],
-                    sortMode: oldApiReqData["sortMode"]
-                };
-            });
-        }
+        props.apiSetFunct((oldApiReqData) => {
+            let newGenreSet = oldApiReqData["genres"];
+            if (newGenreSet === undefined) newGenreSet = new Set();
+            if (event.target.checked) {
+                newGenreSet.add(event.target.value);
+            } else {
+                newGenreSet.delete(event.target.value);
+            }
+            return {
+                ...oldApiReqData,
+                "filterMode": true,
+                "page": 1,
+                "genres": newGenreSet
+            };
+        });
     };
 
     const openGenreModal = () => {
@@ -96,88 +75,33 @@ function BrowseMode(props) {
         setGenreModalOpened(false);
     };
 
-    const updateMinDate = (event) => {
-        if (event.target.value == "") {
-            props.apiSetFunct((oldApiReqData) => {
-                return {
-                    search: oldApiReqData["search"],
-                    page: 1,
-                    filters: oldApiReqData["filters"] - (oldApiReqData["dateRange"][0] != MIN_DATE),
-                    genres: oldApiReqData["genres"],
-                    dateRange: [MIN_DATE, oldApiReqData["dateRange"][1]],
-                    ratingRange: oldApiReqData["ratingRange"],
-                    sortMode: oldApiReqData["sortMode"],
-                };
-            });
-        } else {
-            props.apiSetFunct((oldApiReqData) => {
-                return {
-                    search: oldApiReqData["search"],
-                    page: 1,
-                    filters: oldApiReqData["filters"] + (oldApiReqData["dateRange"][0] == MIN_DATE),
-                    genres: oldApiReqData["genres"],
-                    dateRange: [new Date(event.target.value).toISOString().slice(0, 10), oldApiReqData["dateRange"][1]],
-                    ratingRange: oldApiReqData["ratingRange"],
-                    sortMode: oldApiReqData["sortMode"],
-                };
-            });
+    const updateRange = (min, max, value, isMin, valueID) => {
+        // sanity check
+        if (value == "") {
+            value = isMin ? min : max;
         }
+        props.apiSetFunct((oldApiReqData) => ({
+            ...oldApiReqData,
+            "filterMode": true, 
+            "page": 1,
+            [valueID]: isMin ? [value, oldApiReqData[valueID][1]] : [oldApiReqData[valueID][0], value]
+        }));
+    };          
+
+    const updateMinDate = (event) => {
+        updateRange(MIN_DATE, MAX_DATE, event.target.value, true, "dateRange");
     };
 
     const updateMaxDate = (event) => {
-        if (event.target.value == "") {
-            props.apiSetFunct((oldApiReqData) => {
-                return {
-                    search: oldApiReqData["search"],
-                    page: 1,
-                    filters: oldApiReqData["filters"] - (oldApiReqData["dateRange"][1] != MAX_DATE),
-                    genres: oldApiReqData["genres"],
-                    dateRange: [oldApiReqData["dateRange"][0], MAX_DATE],
-                    ratingRange: oldApiReqData["ratingRange"],
-                    sortMode: oldApiReqData["sortMode"],
-                };
-            });
-        } else {
-            props.apiSetFunct((oldApiReqData) => {
-                return {
-                    search: oldApiReqData["search"],
-                    page: 1,
-                    filters: oldApiReqData["filters"] + (oldApiReqData["dateRange"][1] == MAX_DATE),
-                    genres: oldApiReqData["genres"],
-                    dateRange: [oldApiReqData["dateRange"][0], new Date(event.target.value).toISOString().slice(0, 10)],
-                    ratingRange: oldApiReqData["ratingRange"],
-                    sortMode: oldApiReqData["sortMode"],
-                };
-            });
-        }
+        updateRange(MIN_DATE, MAX_DATE, event.target.value, false, "dateRange");
     };
 
     const updateMinRating = (event) => {
-        props.apiSetFunct((oldApiReqData) => {
-            return {
-                search: oldApiReqData["search"],
-                page: 1,
-                filters: oldApiReqData["filters"] + (oldApiReqData["ratingRange"][0] == MIN_RATING),
-                genres: oldApiReqData["genres"],
-                dateRange: oldApiReqData["dateRange"][0],
-                ratingRange: [event.target.value == "" ? 0 : event.target.value, oldApiReqData["ratingRange"][1]],
-                sortMode: oldApiReqData["sortMode"],
-            };
-        });
+        updateRange(MIN_RATING, MAX_RATING, event.target.value, true, "ratingRange");
     };
 
     const updateMaxRating = (event) => {
-        props.apiSetFunct((oldApiReqData) => {
-            return {
-                search: oldApiReqData["search"],
-                page: 1,
-                filters: oldApiReqData["filters"] + (oldApiReqData["ratingRange"][1] == MAX_RATING),
-                genres: oldApiReqData["genres"],
-                dateRange: oldApiReqData["dateRange"][0],
-                ratingRange: [oldApiReqData["ratingRange"][0], event.target.value == "" ? 10 : event.target.value],
-                sortMode: oldApiReqData["sortMode"],
-            };
-        });
+        updateRange(MIN_RATING, MAX_RATING, event.target.value, false, "ratingRange");
     };
 
     return (

@@ -16,12 +16,12 @@ function SearchMode(props) {
 
     const search = () => {
         props.apiSetFunct({
-        search: searchQuery,
-        page: 1,
-        filters: 0,
-        genres: [],
-        dateRange: [Date(-8640000000000000), Date(8640000000000000)],
-        ratingRange: [0, 10],
+            "search": searchQuery,
+            "page": 1,
+            "filterMode": false,
+            "genres": new Set(),
+            "dateRange": ["0000-01-01", "9999-12-31"],
+            "ratingRange": [-1, 11],
         });
     };
 

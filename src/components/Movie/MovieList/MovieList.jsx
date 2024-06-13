@@ -29,7 +29,6 @@ function MovieList(props) {
                             movieRating={movie['vote_average']}
                             movieOverview={movie['overview']}
                             movieReleaseDate={movie['release_date']}
-                            movieGenres={movie['genre_ids']}
                         />
                     );
                 })

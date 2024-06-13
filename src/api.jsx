@@ -1,5 +1,5 @@
 const api = () => {
-    const fetchData = async (url) => {
+    const fetchData = async (url, key, useKey, funct, concat) => {
         try {
             const response = await fetch(url, {
                 method: "get",
@@ -11,87 +11,85 @@ const api = () => {
             if (!response.ok) {
                 throw new Error("Failed to fetch data");
             }
-            return await response.json();
+            const data = await response.json();
+            if (useKey) {
+                funct(concat ? (oldData) => [...oldData, ...data[key]] : data[key]);
+            } else {
+                funct(concat ? (oldData) => [...oldData, ...data] : data);
+            }
         } catch (error) {
             console.error(error);
         }
     };
 
-    const fetchPageData = async (page, concat, funct) => {
-        await fetchData(
-            `https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=${page}`
+    const fetchPageData = async (data, concat, funct) => {
+        fetchData(
+            `https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=${data["page"]}`,
+
+            "results",
+            true,
+            funct,
+            concat
         )
-        .then((data) => {
-            if (concat) {
-                funct((oldData) => [...oldData, ...data["results"]]);
-            } else {
-                funct(data["results"]);
-            }
-        })
-        .catch((error) => {
-            console.log(error);
-        });
     };
 
-    const fetchSearchData = async (query, page, concat, funct) => {
-        await fetchData(
-            `https://api.themoviedb.org/3/search/movie?query=${query}&page=${page}&language=en-US`
-        )
-        .then((data) => {
-            if (concat) {
-                funct((oldData) => [...oldData, ...data["results"]]);
-            } else {
-                funct(data["results"]);
-            }
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+    const fetchSearchData = async (data, concat, funct) => {
+        fetchData(
+            `https://api.themoviedb.org/3/search/movie?query=` +
+            `${data["search"]}` + 
+            `&page=${data["page"]}` + 
+            `&language=en-US`,
+
+            "results",
+            true,
+            funct,
+            concat
+        );
     };
 
     const fetchMovieData = async (query, funct) => {
         await fetchData(
-            `https://api.themoviedb.org/3/movie/${query}?language=en-US`
-        )
-        .then((data) => {
-            funct(data);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+            `https://api.themoviedb.org/3/movie/${query}?language=en-US`,
+
+            "",
+            false,
+            funct,
+            false
+        );
     };
 
     const fetchTrailerData = async (query, funct) => {
         await fetchData(
-            `https://api.themoviedb.org/3/movie/${query}/videos?language=en-US`
-        )
-        .then((data) => {
-            funct(data["results"]);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+            `https://api.themoviedb.org/3/movie/${query}/videos?language=en-US`,
+
+            "",
+            false,
+            funct,
+            false
+        );
     };
 
-    const fetchFilteredData = async (page, genres, dateRange, ratingRange, sortMode, concat, funct) => {
+    const fetchFilteredData = async (data, concat, funct) => {
         let genresString = "";
-        for (const genreID of genres.entries()) {
+        for (const genreID of data["genres"].entries()) {
             genresString += genreID + "%7C";
         }
-        const startDate = dateRange[0];
-        const endDate = dateRange[1];
-        const startRating = ratingRange[0];
-        const endRating = ratingRange[1];
 
         await fetchData(
-            `https://api.themoviedb.org/3/discover/movie?&language=en-US&page=${page}&primary_release_date.gte=${startDate}&primary_release_date.lte=${endDate}&vote_average.gte=${startRating}&vote_average.lte=${endRating}&sort_by=${sortMode}&with_genres=${genresString}`
-        ).then((data) => {
-            if (concat) {
-                funct((oldData) => [...oldData, ...data["results"]]);
-            } else {
-                funct(data["results"]);
-            }
-        });
+            `https://api.themoviedb.org/3/discover/movie?` +
+            `&language=en-US&page=${data["page"]}` + 
+            `&primary_release_date.gte=${data["dateRange"][0]}` + 
+            `&primary_release_date.lte=${data["dateRange"][1]}` + 
+            `&vote_average.gte=${data["ratingRange"][0]}` + 
+            `&vote_average.lte=${data["ratingRange"][1]}` + 
+            `&sort_by=${data["sortMode"]}` + 
+            `&with_genres=${genresString}`,
+
+            "results",
+            true,
+            funct,
+            concat
+        );
     };
 
     return {
