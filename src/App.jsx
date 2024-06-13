@@ -35,15 +35,10 @@ function App() {
     }, [apiReqData]);
 
     const loadMore = () => {
-        setApiReqData({
-            search: apiReqData["search"],
-            page: apiReqData["page"] + 1,
-            filterMode: apiReqData["filterMode"],
-            genres: [],
-            dateRange: apiReqData["dateRange"],
-            ratingRange: apiReqData["ratingRange"],
-            sortMode: apiReqData["sortMode"]
-        });
+        setApiReqData((oldApiReqData) => ({
+            ...oldApiReqData,
+            "page": oldApiReqData["page"] + 1,
+        }));
     };
 
     const updateSearchMode = (mode) => {

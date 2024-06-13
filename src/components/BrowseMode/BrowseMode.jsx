@@ -153,18 +153,22 @@ function BrowseMode(props) {
                         </div>
                     </div>
 
-                    <section>
-                        <h3 className="genre-text">Genres</h3>
-                        {Object.entries(GENRE_TO_ID).map((genre, index) => {
-                            return (
-                                <div key={index}>
-                                    <input type="checkbox" id={"genre-" + genre[1]} name={genre[1]} value={genre[1]} onChange={handleGenreChange}/>
-                                    <label htmlFor={"genre-" + genre[1]} className="genre-text">{genre[0]}</label>
-                                    <br/>
-                                </div>
-                            );
-                        })}
-                    </section>
+                    {
+                        props.searchMode ? 
+                        <></> :
+                        <section>
+                            <h3 className="genre-text">Genres</h3>
+                            {Object.entries(GENRE_TO_ID).map((genre, index) => {
+                                return (
+                                    <div key={index}>
+                                        <input type="checkbox" id={"genre-" + genre[1]} name={genre[1]} value={genre[1]} onChange={handleGenreChange}/>
+                                        <label htmlFor={"genre-" + genre[1]} className="genre-text">{genre[0]}</label>
+                                        <br/>
+                                    </div>
+                                );
+                            })}
+                        </section>
+                    }
                 </div>
             </div>
         </div>
