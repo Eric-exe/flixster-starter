@@ -107,9 +107,9 @@ function BrowseMode(props) {
     return (
         <div
             className="center-v browse-bar"
-            style={{ display: props.searchMode ? "none" : "flex" }}
+            style={{ display: props.searchMode ? "none" : "block" }}
         >
-            <div className="center-v">
+            <span className="center-v">
                 <label htmlFor="sort-dropdown">Sort by: &nbsp;</label>
                 <select id="sort-dropdown" onChange={handleSortChange}>
                 <option disabled selected>-- Select --</option>
@@ -122,25 +122,25 @@ function BrowseMode(props) {
                 <option value="vote_average.desc">Rating Descending</option>
                 <option value="vote_average.asc">Rating Ascending</option>
                 </select>
-            </div>
+            </span>
 
             <button className="button" onClick={openGenreModal}>
                 Genres
             </button>
 
-            <div className="center-v browse-item">
+            <span className="center-v browse-item">
                 Rating Range:&nbsp;
                 <input type="number" min="0" max="10" onChange={updateMinRating}></input>
                 &nbsp;-&nbsp;
                 <input type="number" min="0" max="10" onChange={updateMaxRating}></input>
-            </div>
+            </span>
 
-            <div className="center-v browse-item">
+            <span className="center-v browse-item">
                 Release Date:&nbsp;
                 <input type="date" onChange={updateMinDate}></input>
                 &nbsp;-&nbsp;
                 <input type="date" onChange={updateMaxDate}></input>
-            </div>
+            </span>
 
             <div
                 className="modal"

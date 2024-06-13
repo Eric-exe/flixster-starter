@@ -27,7 +27,7 @@ function SearchMode(props) {
 
   return (
         <div
-        className="center-v"
+        className="center-v search-mode"
         style={{ display: props.searchMode ? "block" : "none" }}
         >
             <input

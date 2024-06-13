@@ -12,6 +12,7 @@ header {
 #filters {
   background-color: #0d6efd;
   display: flex;
+  flex-wrap: wrap;
   position: sticky;
   top: 0px;
   padding: 5px;
