@@ -30,7 +30,7 @@ function MovieModal(props) {
     useEffect(() => {
         fetchMovieData(props.movieID, setMovieData);
         fetchTrailerData(props.movieID, setTrailerData);
-    }, []);
+    }, [props.movieID]);
 
     useEffect(() => {
         if (Object.keys(movieData).length === 0) {
@@ -48,6 +48,8 @@ function MovieModal(props) {
         setTrailerID(trailerData[0]['key']);
     }
     , [trailerData]);
+
+
     return (
         <div className='modal-content modal-background-img' style={{background: 'url("' + props.backdropSrc + '")'}}>
             <div className='movie-content'>
