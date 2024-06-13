@@ -77,7 +77,7 @@ function BrowseMode(props) {
     };
 
     const updateRange = (min, max, value, isMin, valueID) => {
-        // sanity check
+        // sanity check: when users empty in empty values, use default min/max
         if (value == "") {
             value = isMin ? min : max;
         }
@@ -166,7 +166,13 @@ function BrowseMode(props) {
                             {Object.entries(GENRE_TO_ID).map((genre, index) => {
                                 return (
                                     <div key={index}>
-                                        <input type="checkbox" id={"genre-" + genre[1]} name={genre[1]} value={genre[1]} onChange={handleGenreChange}/>
+                                        <input 
+                                            type="checkbox" 
+                                            id={"genre-" + genre[1]} 
+                                            name={genre[1]} 
+                                            value={genre[1]} 
+                                            onChange={handleGenreChange}
+                                        />
                                         <label htmlFor={"genre-" + genre[1]} className="genre-text">{genre[0]}</label>
                                         <br/>
                                     </div>

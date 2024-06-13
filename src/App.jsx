@@ -6,7 +6,7 @@ import MovieList from "./components/Movie/MovieList/MovieList";
 import api from "./api";
 
 const DEFAULT_API_REQ_DATA = {
-    'search': "",
+    'search': "", 
     'page': 1,
     'filterMode': false,
     'genres': new Set(),
@@ -16,10 +16,17 @@ const DEFAULT_API_REQ_DATA = {
 };
 
 function App() {
-    const [movieData, setMovieData] = useState([]);
+    // API data should have all keys mentioned in DEFAULT_API_REQ_DATA
+    // whenever this object updates, an API request is made
     const [apiReqData, setApiReqData] = useState(DEFAULT_API_REQ_DATA);
-    const [searchMode, setSearchMode] = useState(false); // [false: now playing, true: search]
 
+    // stores the result of API request, updating in MovieList
+    const [movieData, setMovieData] = useState([]);
+
+    // [false: now playing, true: search]
+    const [searchMode, setSearchMode] = useState(false); 
+
+    // handles whether or not a movie is liked/favorite across sorts/filters
     const [moviesWatched, setMoviesWatched] = useState(new Set());
     const [moviesFavorited, setMoviesFavorited] = useState(new Set());
 
@@ -69,9 +76,7 @@ function App() {
                 <div id="filters">
                     <div className="flex center-v">
                         <div
-                            className={
-                                "button " + (searchMode ? "" : "button-active")
-                            }
+                            className={"button " + (searchMode ? "" : "button-active")}
                             onClick={() => {
                                 updateSearchMode(false);
                                 setApiReqData(DEFAULT_API_REQ_DATA);
@@ -80,9 +85,7 @@ function App() {
                             Now Playing
                         </div>
                         <div
-                            className={
-                                "button " + (searchMode ? "button-active" : "")
-                            }
+                            className={"button " + (searchMode ? "button-active" : "")}
                             onClick={() => updateSearchMode(true)}
                         >
                             Search
