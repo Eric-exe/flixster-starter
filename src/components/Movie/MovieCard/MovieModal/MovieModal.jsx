@@ -18,19 +18,24 @@ MovieModal.propTypes = {
 }
 
 function MovieModal(props) {
+    // data returned from their respective API requests, 
     const [movieData, setMovieData] = useState({});
     const [trailerData, setTrailerData] = useState([]);
+
+    // modal info from above API request
     const [tagline, setTagline] = useState("");
     const [genres, setGenres] = useState([]);
     const [runTime, setRunTime] = useState(-1);
     const [trailerID, setTrailerID] = useState("");
+
+    // local watched/favorited, handles button color
     const [isWatched, setIsWatched] = useState(false);
     const [isFavorited, setIsFavorited] = useState(false);
 
     const { fetchMovieData, fetchTrailerData } = api();
 
     // update movie data whenever movieID is updated 
-    // (fixes bug where movie info stays the same after sorting/filtering)
+    // to reflect new movie info
     useEffect(() => {
         fetchMovieData(props.movieID, setMovieData);
         fetchTrailerData(props.movieID, setTrailerData);
@@ -71,8 +76,8 @@ function MovieModal(props) {
         }
         itemFunct(oldSet);
     }
-    
-    // update global watched/favorited set
+
+    // update global watched/favorited set when local values are updated
     useEffect(() => {
         updateItem(props.watchedFavorited[0], props.watchedFavorited[1], props.movieID, !isWatched);
     }, [isWatched]);
