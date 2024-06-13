@@ -6,7 +6,7 @@ import MovieList from "./components/Movie/MovieList/MovieList";
 import api from "./api";
 
 const DEFAULT_API_REQ_DATA = {
-    'search': "",
+    'search': "", 
     'page': 1,
     'filterMode': false,
     'genres': new Set(),
@@ -16,14 +16,23 @@ const DEFAULT_API_REQ_DATA = {
 };
 
 function App() {
-    const [movieData, setMovieData] = useState([]);
+    // API data should have all keys mentioned in DEFAULT_API_REQ_DATA
+    // whenever this object updates, an API request is made
     const [apiReqData, setApiReqData] = useState(DEFAULT_API_REQ_DATA);
-    const [searchMode, setSearchMode] = useState(false); // [false: now playing, true: search
+
+    // stores the result of API request, updating in MovieList
+    const [movieData, setMovieData] = useState([]);
+
+    // [false: now playing, true: search]
+    const [searchMode, setSearchMode] = useState(false); 
+
+    // handles whether or not a movie is liked/favorite across sorts/filters
+    const [moviesWatched, setMoviesWatched] = useState(new Set());
+    const [moviesFavorited, setMoviesFavorited] = useState(new Set());
 
     const { fetchPageData, fetchSearchData, fetchFilteredData } = api();
 
     useEffect(() => {
-        console.log(apiReqData);
         if (apiReqData["search"] == "") {
             if (apiReqData["filterMode"]) {
                 fetchFilteredData(apiReqData, apiReqData["page"] != 1, setMovieData);
@@ -36,15 +45,10 @@ function App() {
     }, [apiReqData]);
 
     const loadMore = () => {
-        setApiReqData({
-            search: apiReqData["search"],
-            page: apiReqData["page"] + 1,
-            filterMode: apiReqData["filterMode"],
-            genres: [],
-            dateRange: apiReqData["dateRange"],
-            ratingRange: apiReqData["ratingRange"],
-            sortMode: apiReqData["sortMode"]
-        });
+        setApiReqData((oldApiReqData) => ({
+            ...oldApiReqData,
+            "page": oldApiReqData["page"] + 1,
+        }));
     };
 
     const updateSearchMode = (mode) => {
@@ -55,16 +59,24 @@ function App() {
         <>
             <header>
                 <div>
-                    <h1>Flixster</h1>
+                    <h1 id='title-text'>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M6 3a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                            <path d="M9 6a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
+                            <path d="M9 6h.5a2 2 0 0 1 1.983 1.738l3.11-1.382A1 1 0 0 1 16 7.269v7.462a1 1 0 0 1-1.406.913l-3.111-1.382A2 2 0 0 1 9.5 16H2a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/>
+                        </svg>
+                    &nbsp;Flixster&nbsp;
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M0 1a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1zm4 0v6h8V1zm8 8H4v6h8zM1 1v2h2V1zm2 3H1v2h2zM1 7v2h2V7zm2 3H1v2h2zm-2 3v2h2v-2zM15 1h-2v2h2zm-2 3v2h2V4zm2 3h-2v2h2zm-2 3v2h2v-2zm2 3h-2v2h2z"/>
+                        </svg>
+                    </h1>
                 </div>
             </header>
             <main>
                 <div id="filters">
                     <div className="flex center-v">
                         <div
-                            className={
-                                "button " + (searchMode ? "" : "button-active")
-                            }
+                            className={"button " + (searchMode ? "" : "button-active")}
                             onClick={() => {
                                 updateSearchMode(false);
                                 setApiReqData(DEFAULT_API_REQ_DATA);
@@ -73,9 +85,7 @@ function App() {
                             Now Playing
                         </div>
                         <div
-                            className={
-                                "button " + (searchMode ? "button-active" : "")
-                            }
+                            className={"button " + (searchMode ? "button-active" : "")}
                             onClick={() => updateSearchMode(true)}
                         >
                             Search
@@ -93,14 +103,28 @@ function App() {
                     />
                 </div>
 
-                <MovieList movies={movieData} />
+                <MovieList 
+                    movies={movieData} 
+                    watchedFavorited={[moviesWatched, setMoviesWatched, moviesFavorited, setMoviesFavorited]}
+                />
 
-                <button id="load-button" onClick={loadMore}>
+                <button className="button" id="load-button" onClick={loadMore} style={{margin: "10px auto"}}>
                     Load More
                 </button>
             </main>
 
-            <footer>Flixster</footer>
+            <footer>
+                
+                <span className="margin-h">
+                    Flixster
+                </span>
+                <span className="margin-h">
+                    <a href="https://google.com" style={{color: 'white'}}>About</a>
+                </span>
+                <span className="margin-h">
+                    <a href="https://google.com" style={{color: 'white'}}>Contact</a>
+                </span>
+            </footer>
         </>
     );
 }

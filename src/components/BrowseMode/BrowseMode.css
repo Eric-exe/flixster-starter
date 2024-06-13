@@ -38,6 +38,7 @@
 .browse-bar {
     margin-left: 1%;
     color: white;
+    overflow: clip;
 }
 
 .genre-text {

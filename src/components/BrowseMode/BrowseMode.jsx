@@ -39,6 +39,7 @@ function BrowseMode(props) {
     const [genreModalOpened, setGenreModalOpened] = useState(false);
 
     const handleSortChange = (event) => {
+        console.log(event.target.value);
         props.apiSetFunct((oldApiReqData) => {
             return {
                 ...oldApiReqData,
@@ -76,7 +77,7 @@ function BrowseMode(props) {
     };
 
     const updateRange = (min, max, value, isMin, valueID) => {
-        // sanity check
+        // sanity check: when users empty in empty values, use default min/max
         if (value == "") {
             value = isMin ? min : max;
         }
@@ -107,40 +108,44 @@ function BrowseMode(props) {
     return (
         <div
             className="center-v browse-bar"
-            style={{ display: props.searchMode ? "none" : "flex" }}
+            style={{ display: props.searchMode ? "none" : "block" }}
         >
-            <div className="center-v">
-                <label htmlFor="sort-dropdown">Sort by: &nbsp;</label>
-                <select id="sort-dropdown" onChange={handleSortChange}>
-                <option disabled selected>-- Select --</option>
-                <option value="popularity.desc">Popularity Descending</option>
-                <option value="popularity.asc">Popularity Ascending</option>
-                <option value="title.asc">A-Z</option>
-                <option value="title.desc">Z-A</option>
-                <option value="primary_release_date.desc">Latest Release</option>
-                <option value="primary_release_date.asc">Earliest Release</option>
-                <option value="vote_average.desc">Rating Descending</option>
-                <option value="vote_average.asc">Rating Ascending</option>
-                </select>
-            </div>
+            {
+                props.searchMode ? 
+                <></> :
+                <span className="center-v">
+                    <label htmlFor="sort-dropdown">Sort by: &nbsp;</label>
+                    <select id="sort-dropdown" onChange={handleSortChange}>
+                    <option disabled selected>-- Select --</option>
+                    <option value="popularity.desc">Popularity Descending</option>
+                    <option value="popularity.asc">Popularity Ascending</option>
+                    <option value="title.asc">A-Z</option>
+                    <option value="title.desc">Z-A</option>
+                    <option value="primary_release_date.desc">Latest Release</option>
+                    <option value="primary_release_date.asc">Earliest Release</option>
+                    <option value="vote_average.desc">Rating Descending</option>
+                    <option value="vote_average.asc">Rating Ascending</option>
+                    </select>
+                </span>
+            }
 
             <button className="button" onClick={openGenreModal}>
                 Genres
             </button>
 
-            <div className="center-v browse-item">
+            <span className="center-v browse-item">
                 Rating Range:&nbsp;
                 <input type="number" min="0" max="10" onChange={updateMinRating}></input>
                 &nbsp;-&nbsp;
                 <input type="number" min="0" max="10" onChange={updateMaxRating}></input>
-            </div>
+            </span>
 
-            <div className="center-v browse-item">
+            <span className="center-v browse-item">
                 Release Date:&nbsp;
                 <input type="date" onChange={updateMinDate}></input>
                 &nbsp;-&nbsp;
                 <input type="date" onChange={updateMaxDate}></input>
-            </div>
+            </span>
 
             <div
                 className="modal"
@@ -153,18 +158,28 @@ function BrowseMode(props) {
                         </div>
                     </div>
 
-                    <section>
-                        <h3 className="genre-text">Genres</h3>
-                        {Object.entries(GENRE_TO_ID).map((genre, index) => {
-                            return (
-                                <div key={index}>
-                                    <input type="checkbox" id={"genre-" + genre[1]} name={genre[1]} value={genre[1]} onChange={handleGenreChange}/>
-                                    <label htmlFor={"genre-" + genre[1]} className="genre-text">{genre[0]}</label>
-                                    <br/>
-                                </div>
-                            );
-                        })}
-                    </section>
+                    {
+                        props.searchMode ? 
+                        <></> :
+                        <section>
+                            <h3 className="genre-text">Genres</h3>
+                            {Object.entries(GENRE_TO_ID).map((genre, index) => {
+                                return (
+                                    <div key={index}>
+                                        <input 
+                                            type="checkbox" 
+                                            id={"genre-" + genre[1]} 
+                                            name={genre[1]} 
+                                            value={genre[1]} 
+                                            onChange={handleGenreChange}
+                                        />
+                                        <label htmlFor={"genre-" + genre[1]} className="genre-text">{genre[0]}</label>
+                                        <br/>
+                                    </div>
+                                );
+                            })}
+                        </section>
+                    }
                 </div>
             </div>
         </div>
