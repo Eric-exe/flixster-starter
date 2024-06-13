@@ -17,28 +17,37 @@ MovieModal.propTypes = {
 }
 
 function MovieModal(props) {
-    const [movieData, setMovieData] = useState([])
-    const [trailerData, setTrailerData] = useState([])
+    const [movieData, setMovieData] = useState({});
+    const [trailerData, setTrailerData] = useState([]);
+
+    const [tagline, setTagline] = useState("");
+    const [genres, setGenres] = useState([]);
+    const [runTime, setRunTime] = useState(-1);
+    const [trailerID, setTrailerID] = useState("");
 
     const { fetchMovieData, fetchTrailerData } = api();
 
     useEffect(() => {
         fetchMovieData(props.movieID, setMovieData);
         fetchTrailerData(props.movieID, setTrailerData);
-    }, [props.movieID]);
+    }, []);
 
-    let tagline = "";
-    let genres = [];
-    let runTime = -1;
-    let trailerID = "";
+    useEffect(() => {
+        if (Object.keys(movieData).length === 0) {
+            return;
+        }
+        setTagline(movieData['tagline']);
+        setGenres(movieData['genres']);
+        setRunTime(movieData['runtime']);
+    }, [movieData]);
 
-    if (movieData !== undefined) {
-        if (Object.prototype.hasOwnProperty.call(movieData, 'tagline')) tagline = movieData['tagline'];
-        if (Object.prototype.hasOwnProperty.call(movieData, 'genres')) genres = movieData['genres'];
-        if (Object.prototype.hasOwnProperty.call(movieData, 'runtime')) runTime = movieData['runtime'];
-        if (trailerData.length >= 1) trailerID = trailerData[0]['key'];
+    useEffect(() => {
+        if (trailerData.length == 0) {
+            return;
+        }
+        setTrailerID(trailerData[0]['key']);
     }
-
+    , [trailerData]);
     return (
         <div className='modal-content modal-background-img' style={{background: 'url("' + props.backdropSrc + '")'}}>
             <div className='movie-content'>

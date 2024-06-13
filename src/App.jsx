@@ -23,7 +23,6 @@ function App() {
     const { fetchPageData, fetchSearchData, fetchFilteredData } = api();
 
     useEffect(() => {
-        console.log(apiReqData);
         if (apiReqData["search"] == "") {
             if (apiReqData["filterMode"]) {
                 fetchFilteredData(apiReqData, apiReqData["page"] != 1, setMovieData);

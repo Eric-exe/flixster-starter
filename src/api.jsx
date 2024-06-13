@@ -62,8 +62,8 @@ const api = () => {
         await fetchData(
             `https://api.themoviedb.org/3/movie/${query}/videos?language=en-US`,
 
-            "",
-            false,
+            "results",
+            true,
             funct,
             false
         );
