@@ -28,3 +28,17 @@ body {
 #load-button {
   margin: auto;
 }
+
+.modal-button {
+  width: 90%;
+  display: flex;
+  justify-content: center;
+}
+
+.background-green {
+  background-color: #198754;
+}
+
+.background-red {
+  background-color: #dc3545;
+}
