@@ -134,17 +134,25 @@ function BrowseMode(props) {
             </button>
 
             <span className="center-v browse-item">
-                Rating Range:&nbsp;
-                <input type="number" min="0" max="10" onChange={updateMinRating}></input>
-                &nbsp;-&nbsp;
-                <input type="number" min="0" max="10" onChange={updateMaxRating}></input>
+                <span className="nowrap">
+                    Rating Range:&nbsp;
+                </span>
+                <span className="nowrap">
+                    <input type="number" min="0" max="10" onChange={updateMinRating}></input>
+                    &nbsp;-&nbsp;
+                    <input type="number" min="0" max="10" onChange={updateMaxRating}></input>
+                </span>
             </span>
 
-            <span className="center-v browse-item">
-                Release Date:&nbsp;
-                <input type="date" onChange={updateMinDate}></input>
-                &nbsp;-&nbsp;
-                <input type="date" onChange={updateMaxDate}></input>
+            <span className="center-v browse-item nowrap">
+                <span className="nowrap">
+                    Release Date:&nbsp;
+                </span>
+                <span className="nowrap">
+                    <input type="date" onChange={updateMinDate}></input>
+                    &nbsp;-&nbsp;
+                    <input type="date" onChange={updateMaxDate}></input>
+                </span>
             </span>
 
             <div

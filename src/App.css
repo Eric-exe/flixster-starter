@@ -1,32 +1,26 @@
-html {
-  background-color: #212529;
-}
-
 header {
   display: flex;
   flex-direction: column;
   text-align: center;
-  background-color: #0d6efd;
+  background-color: #198754;
 }
 
 #title-text {
   color: white;
 }
 
-#filters {
-  background-color: #0d6efd;
+.sticky-bar {
   display: flex;
-  flex-wrap: wrap;
   position: sticky;
+  flex-wrap: wrap;
   top: 0px;
   padding: 5px;
-  z-index: 1;
+  z-index: 999;
 }
 
 footer {
   display: flex;
   justify-content: end;
-  background-color: #0d6efd;
   text-align: center;
   color: white;
   min-height: 3%;
@@ -68,4 +62,14 @@ footer {
   display: flex;
   justify-content: center;
   margin: 10px auto;
+}
+
+.right {
+  margin-left: auto;
+  margin-right: 1%;
+}
+
+.nowrap {
+  white-space: nowrap;
+  overflow: clip;
 }

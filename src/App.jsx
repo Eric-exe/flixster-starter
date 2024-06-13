@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import BrowseMode from "./components/BrowseMode/BrowseMode";
 import SearchMode from "./components/SearchMode/SearchMode";
+import PersonalSidebar from "./components/PersonalSidebar/PersonalSidebar"
 import MovieList from "./components/Movie/MovieList/MovieList";
 import api from "./api";
 
@@ -33,7 +34,9 @@ function App() {
     const { fetchPageData, fetchSearchData, fetchFilteredData } = api();
 
     useEffect(() => {
+        // determine search mode
         if (apiReqData["search"] == "") {
+            // if in browsing mode, determine if in filter mode
             if (apiReqData["filterMode"]) {
                 fetchFilteredData(apiReqData, apiReqData["page"] != 1, setMovieData);
             } else {
@@ -59,21 +62,18 @@ function App() {
         <>
             <header>
                 <div>
-                    <h1 id='title-text'>
+                    <h1 id='title-text' className='background-green'>
+                        Flixster&nbsp;
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 16 16">
                             <path d="M6 3a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
                             <path d="M9 6a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
                             <path d="M9 6h.5a2 2 0 0 1 1.983 1.738l3.11-1.382A1 1 0 0 1 16 7.269v7.462a1 1 0 0 1-1.406.913l-3.111-1.382A2 2 0 0 1 9.5 16H2a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/>
                         </svg>
-                    &nbsp;Flixster&nbsp;
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 16 16">
-                            <path d="M0 1a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1zm4 0v6h8V1zm8 8H4v6h8zM1 1v2h2V1zm2 3H1v2h2zM1 7v2h2V7zm2 3H1v2h2zm-2 3v2h2v-2zM15 1h-2v2h2zm-2 3v2h2V4zm2 3h-2v2h2zm-2 3v2h2v-2zm2 3h-2v2h2z"/>
-                        </svg>
                     </h1>
                 </div>
             </header>
             <main>
-                <div id="filters">
+                <div className="sticky-bar background-green">
                     <div className="flex center-v">
                         <div
                             className={"button " + (searchMode ? "" : "button-active")}
@@ -101,6 +101,16 @@ function App() {
                         searchMode={searchMode}
                         apiSetFunct={setApiReqData}
                     />
+
+                    <div className="flex right">
+                        <div>
+                            <div className="button">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="white" viewBox="0 0 16 16">
+                                    <path fillRule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <MovieList 
@@ -111,9 +121,12 @@ function App() {
                 <button className="button" id="load-button" onClick={loadMore} style={{margin: "10px auto"}}>
                     Load More
                 </button>
+
+
+                <PersonalSidebar/>
             </main>
 
-            <footer>
+            <footer className='background-green'>
                 
                 <span className="margin-h">
                     Flixster
