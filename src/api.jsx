@@ -1,5 +1,5 @@
-const api = () => {
-    const fetchData = async (url, key, useKey, funct, concat) => {
+class API {
+    static async fetchData(url, key, useKey, funct, concat) {
         try {
             const response = await fetch(url, {
                 method: "get",
@@ -20,10 +20,10 @@ const api = () => {
         } catch (error) {
             console.error(error);
         }
-    };
+    }
 
-    const fetchPageData = async (data, concat, funct) => {
-        fetchData(
+    static async fetchPageData(data, concat, funct) {
+        this.fetchData(
             `https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=${data["page"]}`,
 
             "results",
@@ -31,10 +31,10 @@ const api = () => {
             funct,
             concat
         );
-    };
+    }
 
-    const fetchSearchData = async (data, concat, funct) => {
-        fetchData(
+    static async fetchSearchData(data, concat, funct) {
+        this.fetchData(
             `https://api.themoviedb.org/3/search/movie?query=` +
                 `${data["search"]}` +
                 `&page=${data["page"]}` +
@@ -45,10 +45,10 @@ const api = () => {
             funct,
             concat
         );
-    };
+    }
 
-    const fetchMovieData = async (query, funct) => {
-        await fetchData(
+    static async fetchMovieData(query, funct) {
+        this.fetchData(
             `https://api.themoviedb.org/3/movie/${query}?language=en-US`,
 
             "",
@@ -56,10 +56,10 @@ const api = () => {
             funct,
             false
         );
-    };
+    }
 
-    const fetchTrailerData = async (query, funct) => {
-        await fetchData(
+    static async fetchTrailerData(query, funct) {
+        this.fetchData(
             `https://api.themoviedb.org/3/movie/${query}/videos?language=en-US`,
 
             "results",
@@ -67,15 +67,15 @@ const api = () => {
             funct,
             false
         );
-    };
+    }
 
-    const fetchFilteredData = async (data, concat, funct) => {
+    static async fetchFilteredData(data, concat, funct) {
         let genresString = "";
         for (const genreID of data["genres"].entries()) {
             genresString += genreID + "%7C";
         }
 
-        await fetchData(
+        this.fetchData(
             `https://api.themoviedb.org/3/discover/movie?` +
                 `&language=en-US&page=${data["page"]}` +
                 `&primary_release_date.gte=${data["dateRange"][0]}` +
@@ -90,15 +90,7 @@ const api = () => {
             funct,
             concat
         );
-    };
+    }
+}
 
-    return {
-        fetchPageData,
-        fetchSearchData,
-        fetchMovieData,
-        fetchTrailerData,
-        fetchFilteredData,
-    };
-};
-
-export default api;
+export default API;
