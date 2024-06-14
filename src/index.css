@@ -1,12 +1,12 @@
 body {
   margin: 0;
-  background-color: #282c34;
+  background-color: #121315;
   font-family: 'Poppins', Arial, serif;
 }
 
 .button {
   all: unset;
-  background-color: #777;
+  background-color: #454545;
   color: white;
   cursor: pointer;
   font-size: 16px;
@@ -14,11 +14,13 @@ body {
   margin: 5px;
   padding: 5px;
   border-radius: 5px;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s;
+  display: inline-flex;
 }
 
 .button:hover {
   background-color: black;
+  transform: scale(1.05);
 }
 
 .button-active {
@@ -41,4 +43,8 @@ body {
 
 .background-red {
   background-color: #dc3545;
+}
+
+.background-blue {
+  background-color: #0d6efd;
 }

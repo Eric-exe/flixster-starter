@@ -66,5 +66,6 @@ iframe {
 
 .modal-left {
     max-width: 40%;
+    min-width: 40%;
     overflow: clip;
 }

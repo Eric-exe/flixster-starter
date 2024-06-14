@@ -30,15 +30,15 @@ const api = () => {
             true,
             funct,
             concat
-        )
+        );
     };
 
     const fetchSearchData = async (data, concat, funct) => {
         fetchData(
             `https://api.themoviedb.org/3/search/movie?query=` +
-            `${data["search"]}` + 
-            `&page=${data["page"]}` + 
-            `&language=en-US`,
+                `${data["search"]}` +
+                `&page=${data["page"]}` +
+                `&language=en-US`,
 
             "results",
             true,
@@ -77,13 +77,13 @@ const api = () => {
 
         await fetchData(
             `https://api.themoviedb.org/3/discover/movie?` +
-            `&language=en-US&page=${data["page"]}` + 
-            `&primary_release_date.gte=${data["dateRange"][0]}` + 
-            `&primary_release_date.lte=${data["dateRange"][1]}` + 
-            `&vote_average.gte=${data["ratingRange"][0]}` + 
-            `&vote_average.lte=${data["ratingRange"][1]}` + 
-            `&sort_by=${data["sortMode"]}` + 
-            `&with_genres=${genresString}`,
+                `&language=en-US&page=${data["page"]}` +
+                `&primary_release_date.gte=${data["dateRange"][0]}` +
+                `&primary_release_date.lte=${data["dateRange"][1]}` +
+                `&vote_average.gte=${data["ratingRange"][0]}` +
+                `&vote_average.lte=${data["ratingRange"][1]}` +
+                `&sort_by=${data["sortMode"]}` +
+                `&with_genres=${genresString}`,
 
             "results",
             true,
@@ -97,7 +97,7 @@ const api = () => {
         fetchSearchData,
         fetchMovieData,
         fetchTrailerData,
-        fetchFilteredData
+        fetchFilteredData,
     };
 };
 

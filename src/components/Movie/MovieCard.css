@@ -1,10 +1,14 @@
+.movie {
+    margin: 1%;
+}
+
 .movie-card {
-    border: 5px solid #383737;
-    margin: 5px;
+    border: 5px solid #575757;
     background-color: #f8f9fa;
-    margin: auto;
+    margin: 1%;
     width: 17vw;
     transition: transform 0.2s;
+    cursor: pointer;
 }
 
 .movie-card:hover {
@@ -28,7 +32,7 @@
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+    z-index: 999; /* Sit on top */
     left: 0;
     top: 0;
     width: 100%; /* Full width */

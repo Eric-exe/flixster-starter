@@ -1,6 +1,0 @@
-.movie-card-container {
-    display: grid;
-    background-color: #282c34;
-    grid-template-columns: repeat(5, 1fr);
-    grid-gap: 10px;
-}

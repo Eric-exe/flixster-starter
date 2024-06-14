@@ -43,9 +43,9 @@ function BrowseMode(props) {
         props.apiSetFunct((oldApiReqData) => {
             return {
                 ...oldApiReqData,
-                "filterMode": true,
-                "page": 1,
-                "sortMode": event.target.value,
+                filterMode: true,
+                page: 1,
+                sortMode: event.target.value,
             };
         });
     };
@@ -61,9 +61,9 @@ function BrowseMode(props) {
             }
             return {
                 ...oldApiReqData,
-                "filterMode": true,
-                "page": 1,
-                "genres": newGenreSet
+                filterMode: true,
+                page: 1,
+                genres: newGenreSet,
             };
         });
     };
@@ -83,11 +83,11 @@ function BrowseMode(props) {
         }
         props.apiSetFunct((oldApiReqData) => ({
             ...oldApiReqData,
-            "filterMode": true, 
-            "page": 1,
-            [valueID]: isMin ? [value, oldApiReqData[valueID][1]] : [oldApiReqData[valueID][0], value]
+            filterMode: true,
+            page: 1,
+            [valueID]: isMin ? [value, oldApiReqData[valueID][1]] : [oldApiReqData[valueID][0], value],
         }));
-    };          
+    };
 
     const updateMinDate = (event) => {
         updateRange(MIN_DATE, MAX_DATE, event.target.value, true, "dateRange");
@@ -106,51 +106,51 @@ function BrowseMode(props) {
     };
 
     return (
-        <div
-            className="center-v browse-bar"
-            style={{ display: props.searchMode ? "none" : "block" }}
-        >
-            {
-                props.searchMode ? 
-                <></> :
+        <div className="center-v browse-bar" style={{ display: props.searchMode ? "none" : "block" }}>
+            {props.searchMode ? (
+                <></>
+            ) : (
                 <span className="center-v">
                     <label htmlFor="sort-dropdown">Sort by: &nbsp;</label>
                     <select id="sort-dropdown" onChange={handleSortChange}>
-                    <option disabled selected>-- Select --</option>
-                    <option value="popularity.desc">Popularity Descending</option>
-                    <option value="popularity.asc">Popularity Ascending</option>
-                    <option value="title.asc">A-Z</option>
-                    <option value="title.desc">Z-A</option>
-                    <option value="primary_release_date.desc">Latest Release</option>
-                    <option value="primary_release_date.asc">Earliest Release</option>
-                    <option value="vote_average.desc">Rating Descending</option>
-                    <option value="vote_average.asc">Rating Ascending</option>
+                        <option disabled selected>
+                            -- Select --
+                        </option>
+                        <option value="popularity.desc">Popularity Descending</option>
+                        <option value="popularity.asc">Popularity Ascending</option>
+                        <option value="title.asc">A-Z</option>
+                        <option value="title.desc">Z-A</option>
+                        <option value="primary_release_date.desc">Latest Release</option>
+                        <option value="primary_release_date.asc">Earliest Release</option>
+                        <option value="vote_average.desc">Rating Descending</option>
+                        <option value="vote_average.asc">Rating Ascending</option>
                     </select>
                 </span>
-            }
+            )}
 
             <button className="button" onClick={openGenreModal}>
                 Genres
             </button>
 
             <span className="center-v browse-item">
-                Rating Range:&nbsp;
-                <input type="number" min="0" max="10" onChange={updateMinRating}></input>
-                &nbsp;-&nbsp;
-                <input type="number" min="0" max="10" onChange={updateMaxRating}></input>
+                <span className="nowrap">Rating Range:&nbsp;</span>
+                <span className="nowrap">
+                    <input type="number" min="0" max="10" onChange={updateMinRating}></input>
+                    &nbsp;-&nbsp;
+                    <input type="number" min="0" max="10" onChange={updateMaxRating}></input>
+                </span>
             </span>
 
-            <span className="center-v browse-item">
-                Release Date:&nbsp;
-                <input type="date" onChange={updateMinDate}></input>
-                &nbsp;-&nbsp;
-                <input type="date" onChange={updateMaxDate}></input>
+            <span className="center-v browse-item nowrap">
+                <span className="nowrap">Release Date:&nbsp;</span>
+                <span className="nowrap">
+                    <input type="date" onChange={updateMinDate}></input>
+                    &nbsp;-&nbsp;
+                    <input type="date" onChange={updateMaxDate}></input>
+                </span>
             </span>
 
-            <div
-                className="modal"
-                style={{ display: genreModalOpened ? "block" : "none" }}
-            >
+            <div className="modal" style={{ display: genreModalOpened ? "block" : "none" }}>
                 <div className="browse-modal-content">
                     <div>
                         <div className="close" onClick={closeGenreModal}>
@@ -158,28 +158,30 @@ function BrowseMode(props) {
                         </div>
                     </div>
 
-                    {
-                        props.searchMode ? 
-                        <></> :
+                    {props.searchMode ? (
+                        <></>
+                    ) : (
                         <section>
                             <h3 className="genre-text">Genres</h3>
                             {Object.entries(GENRE_TO_ID).map((genre, index) => {
                                 return (
                                     <div key={index}>
-                                        <input 
-                                            type="checkbox" 
-                                            id={"genre-" + genre[1]} 
-                                            name={genre[1]} 
-                                            value={genre[1]} 
+                                        <input
+                                            type="checkbox"
+                                            id={"genre-" + genre[1]}
+                                            name={genre[1]}
+                                            value={genre[1]}
                                             onChange={handleGenreChange}
                                         />
-                                        <label htmlFor={"genre-" + genre[1]} className="genre-text">{genre[0]}</label>
-                                        <br/>
+                                        <label htmlFor={"genre-" + genre[1]} className="genre-text">
+                                            {genre[0]}
+                                        </label>
+                                        <br />
                                     </div>
                                 );
                             })}
                         </section>
-                    }
+                    )}
                 </div>
             </div>
         </div>
