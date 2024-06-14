@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import BrowseMode from "./components/BrowseMode/BrowseMode";
 import SearchMode from "./components/SearchMode/SearchMode";
@@ -7,13 +7,13 @@ import MovieList from "./components/Movie/MovieList";
 import api from "./api";
 
 const DEFAULT_API_REQ_DATA = {
-    'search': "", 
-    'page': 1,
-    'filterMode': false,
-    'genres': new Set(),
-    'dateRange': ["0000-01-01", "9999-12-31"],
-    'ratingRange': [-1, 11],
-    'sortMode': "",
+    "search": "", 
+    "page": 1,
+    "filterMode": false,
+    "genres": new Set(),
+    "dateRange": ["0000-01-01", "9999-12-31"],
+    "ratingRange": [-1, 11],
+    "sortMode": "",
 };
 
 function App() {
@@ -67,7 +67,7 @@ function App() {
     return (
         <>
             <header>
-                <div id='title-text' className='background-green'>
+                <div id="title-text" className="background-green">
                     <h1>
                         Flixster&nbsp;
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 16 16">
@@ -145,16 +145,16 @@ function App() {
                 </div>
             </main>
 
-            <footer className='background-green'>
+            <footer className="background-green">
                 
                 <span className="margin-h">
                     Flixster
                 </span>
                 <span className="margin-h">
-                    <a href="https://google.com" style={{color: 'white'}}>About</a>
+                    <a href="https://google.com" style={{color: "white"}}>About</a>
                 </span>
                 <span className="margin-h">
-                    <a href="https://google.com" style={{color: 'white'}}>Contact</a>
+                    <a href="https://google.com" style={{color: "white"}}>Contact</a>
                 </span>
             </footer>
         </>
