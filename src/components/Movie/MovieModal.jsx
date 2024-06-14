@@ -14,7 +14,8 @@ MovieModal.propTypes = {
     movieReleaseDate: propTypes.string.isRequired,
     movieRating: propTypes.number.isRequired,
     modalOpened: propTypes.bool.isRequired,
-    watchedFavorited: propTypes.array.isRequired // [watched set, watched funct, favorited set, favorited funct]
+    watched: propTypes.bool.isRequired, // [0] set, [1] funct
+    favorited: propTypes.bool.isRequired 
 }
 
 function MovieModal(props) {
@@ -41,8 +42,8 @@ function MovieModal(props) {
         fetchTrailerData(props.movieID, setTrailerData);
 
         // update watched / favorited
-        setIsWatched(props.watchedFavorited[0].has(props.movieID));
-        setIsFavorited(props.watchedFavorited[2].has(props.movieID));
+        setIsWatched(props.watched[0].has(props.movieID));
+        setIsFavorited(props.favorited[0].has(props.movieID));
     }, [props.movieID]);
 
     // update movie info when api data is updated
@@ -79,11 +80,11 @@ function MovieModal(props) {
 
     // update global watched/favorited set when local values are updated
     useEffect(() => {
-        updateItem(props.watchedFavorited[0], props.watchedFavorited[1], props.movieID, !isWatched);
+        updateItem(props.watched[0], props.watched[1], props.movieID, !isWatched);
     }, [isWatched]);
 
     useEffect(() => {
-        updateItem(props.watchedFavorited[2], props.watchedFavorited[3], props.movieID, !isFavorited);
+        updateItem(props.favorited[0], props.favorited[1], props.movieID, !isFavorited);
     }, [isFavorited]);
 
     const setWatched = () => {

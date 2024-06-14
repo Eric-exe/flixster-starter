@@ -1,12 +1,12 @@
 import './PersonalSidebar.css'
 import propTypes from 'prop-types'
 import MovieList from '../Movie/MovieList'
-import api from '../../api'
 import { useState, useEffect } from 'react'
 
 PersonalSidebar.propTypes = {
     sidebarOpened: propTypes.bool.isRequired,
     sidebarSetFunct: propTypes.func.isRequired,
+    watchedFavorited: propTypes.array.isRequired
 }
 
 function PersonalSidebar(props) {

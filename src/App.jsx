@@ -124,7 +124,8 @@ function App() {
                     <div id="movie-body" style={{marginRight: (sidebarOpened ? "35vw" : "")}}>
                         <MovieList 
                             movies={movieData} 
-                            watchedFavorited={[moviesWatched, setMoviesWatched, moviesFavorited, setMoviesFavorited]}
+                            watched={[moviesWatched, setMoviesWatched]}
+                            favorited={[moviesFavorited, setMoviesFavorited]}
                         />
 
                         <button 
