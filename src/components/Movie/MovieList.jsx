@@ -1,5 +1,5 @@
 import './MovieList.css'
-import MovieCard from '../MovieCard/MovieCard'
+import MovieCard from './MovieCard'
 import PropTypes from 'prop-types'
 
 MovieList.propTypes = {

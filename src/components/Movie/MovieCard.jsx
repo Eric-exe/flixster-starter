@@ -1,5 +1,5 @@
 import './MovieCard.css'
-import MovieModal from './MovieModal/MovieModal'
+import MovieModal from './MovieModal'
 import PropTypes from "prop-types"
 import { useState } from "react"
  

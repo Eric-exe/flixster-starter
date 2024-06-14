@@ -3,7 +3,7 @@ import "./App.css";
 import BrowseMode from "./components/BrowseMode/BrowseMode";
 import SearchMode from "./components/SearchMode/SearchMode";
 import PersonalSidebar from "./components/PersonalSidebar/PersonalSidebar"
-import MovieList from "./components/Movie/MovieList/MovieList";
+import MovieList from "./components/Movie/MovieList";
 import api from "./api";
 
 const DEFAULT_API_REQ_DATA = {

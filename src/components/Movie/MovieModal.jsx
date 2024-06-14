@@ -1,7 +1,7 @@
 import './MovieModal.css'
 import propTypes from 'prop-types'
 import { useState, useEffect } from 'react'
-import api from '../../../../api'
+import api from '../../api'
 
 MovieModal.propTypes = {
     movieID: propTypes.string.isRequired,
