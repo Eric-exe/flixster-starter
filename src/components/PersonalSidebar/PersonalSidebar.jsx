@@ -9,33 +9,21 @@ PersonalSidebar.propTypes = {
 };
 
 function PersonalSidebar(props) {
+    const createParagraphItems = (obj) => {
+        return Object.entries(obj).map((keyValuePair, index) => {
+            return (<p key={index}>{keyValuePair[1]}&nbsp;</p>);
+        });
+    }
+
     return (
         <div className="sidebar" style={{ width: props["sidebarOpened"] ? "35vw" : "" }}>
             <div id="sidebar-content">
                 <h2>Watched Movies</h2>
-                {Object.keys(props["watched"][0]).length == 0 ? (
-                    <p>No movies watched</p>
-                ) : (
-                    Object.entries(props["watched"][0]).map((movie, index) => {
-                        return (
-                            <p key={index}>
-                                {movie[1]}&nbsp;({movie[0]})
-                            </p>
-                        );
-                    })
-                )}
+                    { createParagraphItems(props["watched"][0]) }
+                <hr/>
                 <h2>Favorited Movies</h2>
-                {Object.keys(props["favorited"][0]).length == 0 ? (
-                    <p>No movies favorited</p>
-                ) : (
-                    Object.entries(props["favorited"][0]).map((movie, index) => {
-                        return (
-                            <p key={index}>
-                                {movie[1]}&nbsp;({movie[0]})
-                            </p>
-                        );
-                    })
-                )}
+                    { createParagraphItems(props["favorited"][0]) }
+                <hr/>
             </div>
         </div>
     );

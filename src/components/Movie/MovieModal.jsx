@@ -1,13 +1,16 @@
 import "./MovieModal.css";
 import propTypes from "prop-types";
 import { useState, useEffect } from "react";
-import api from "../../api";
+import API from "../../api";
 
 MovieModal.propTypes = {
     movieID: propTypes.string.isRequired,
     movieData: propTypes.object.isRequired,
-    // 0: state variable, 1: funct
+
+    // 0: state variable, 1: close modal
     modal: propTypes.array.isRequired,
+
+    // 0: state variable, 1: funct
     watched: propTypes.array.isRequired,
     favorited: propTypes.array.isRequired,
 };
@@ -27,13 +30,11 @@ function MovieModal(props) {
     const [isWatched, setIsWatched] = useState(false);
     const [isFavorited, setIsFavorited] = useState(false);
 
-    const { fetchMovieData, fetchTrailerData } = api();
-
     // update movie data whenever movieID is updated or when modal is opened
     // to reflect new movie info
     useEffect(() => {
-        fetchMovieData(props["movieID"], setMovieData);
-        fetchTrailerData(props["movieID"], setTrailerData);
+        API.fetchMovieData(props["movieID"], setMovieData);
+        API.fetchTrailerData(props["movieID"], setTrailerData);
 
         // update watched / favorited
         setIsWatched(Object.prototype.hasOwnProperty.call(props["watched"][0], props["movieID"]));

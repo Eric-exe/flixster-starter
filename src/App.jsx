@@ -4,7 +4,7 @@ import BrowseMode from "./components/BrowseMode/BrowseMode";
 import SearchMode from "./components/SearchMode/SearchMode";
 import PersonalSidebar from "./components/PersonalSidebar/PersonalSidebar";
 import MovieList from "./components/Movie/MovieList";
-import api from "./api";
+import API from "./api";
 
 const DEFAULT_API_REQ_DATA = {
     search: "",
@@ -24,11 +24,10 @@ function App() {
     // stores the result of API request, updating in MovieList
     const [movieData, setMovieData] = useState([]);
 
-    // [false: now playing, true: search]
+    // determines whether the nav bar is in search/browse mode
     const [searchMode, setSearchMode] = useState(false);
-    const [sidebarOpened, setSidebarOpened] = useState(false);
 
-    const { fetchPageData, fetchSearchData, fetchFilteredData } = api();
+    const [sidebarOpened, setSidebarOpened] = useState(false);
 
     // global liked/favorite across sorts/filters
     // stored as a object {movieID: movieTitle}
@@ -40,12 +39,12 @@ function App() {
         if (apiReqData["search"] == "") {
             // if in browsing mode, determine if in filter mode
             if (apiReqData["filterMode"]) {
-                fetchFilteredData(apiReqData, apiReqData["page"] != 1, setMovieData);
+                API.fetchFilteredData(apiReqData, apiReqData["page"] != 1, setMovieData);
             } else {
-                fetchPageData(apiReqData, apiReqData["page"] != 1, setMovieData);
+                API.fetchPageData(apiReqData, apiReqData["page"] != 1, setMovieData);
             }
         } else {
-            fetchSearchData(apiReqData, apiReqData["page"] != 1, setMovieData);
+            API.fetchSearchData(apiReqData, apiReqData["page"] != 1, setMovieData);
         }
     }, [apiReqData]);
 
