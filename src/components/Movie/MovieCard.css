@@ -8,6 +8,7 @@
     margin: 1%;
     width: 17vw;
     transition: transform 0.2s;
+    cursor: pointer;
 }
 
 .movie-card:hover {
