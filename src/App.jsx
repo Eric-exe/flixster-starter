@@ -27,9 +27,11 @@ function App() {
     // [false: now playing, true: search]
     const [searchMode, setSearchMode] = useState(false); 
 
-    // handles whether or not a movie is liked/favorite across sorts/filters
+    // global liked/favorite across sorts/filters
     const [moviesWatched, setMoviesWatched] = useState(new Set());
     const [moviesFavorited, setMoviesFavorited] = useState(new Set());
+
+    const [sidebarOpened, setSidebarOpened] = useState(false);
 
     const { fetchPageData, fetchSearchData, fetchFilteredData } = api();
 
@@ -58,11 +60,15 @@ function App() {
         setSearchMode(mode);
     };
 
+    const changeSidebar = () => {
+        setSidebarOpened((oldState) => !oldState);
+    }
+
     return (
         <>
             <header>
-                <div>
-                    <h1 id='title-text' className='background-green'>
+                <div id='title-text' className='background-green'>
+                    <h1>
                         Flixster&nbsp;
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 16 16">
                             <path d="M6 3a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
@@ -104,7 +110,7 @@ function App() {
 
                     <div className="flex right">
                         <div>
-                            <div className="button">
+                            <div className="button" onClick={changeSidebar}>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="white" viewBox="0 0 16 16">
                                     <path fillRule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
                                 </svg>
@@ -113,19 +119,27 @@ function App() {
                     </div>
                 </div>
 
-                <div>
-                <MovieList 
-                    movies={movieData} 
-                    watchedFavorited={[moviesWatched, setMoviesWatched, moviesFavorited, setMoviesFavorited]}
-                />
+
+                <div id="main-body">
+                    <div id="movie-body" style={{marginRight: (sidebarOpened ? "35vw" : "")}}>
+                        <MovieList 
+                            movies={movieData} 
+                            watchedFavorited={[moviesWatched, setMoviesWatched, moviesFavorited, setMoviesFavorited]}
+                        />
+
+                        <button 
+                            className="button" 
+                            id="load-button" 
+                            onClick={loadMore} 
+                            style={{margin: "auto"}}>
+                            Load More
+                        </button>
+                    </div>
+                    <PersonalSidebar
+                        sidebarOpened={sidebarOpened}
+                        sidebarSetFunct={setSidebarOpened}
+                    />
                 </div>
-
-                <button className="button" id="load-button" onClick={loadMore} style={{margin: "10px auto"}}>
-                    Load More
-                </button>
-
-
-                <PersonalSidebar/>
             </main>
 
             <footer className='background-green'>

@@ -14,6 +14,7 @@ function SearchMode(props) {
         setSearchQuery(event.target.value);
     };
 
+    // reset api info so that the search query is used
     const search = () => {
         props.apiSetFunct({
             "search": searchQuery,
