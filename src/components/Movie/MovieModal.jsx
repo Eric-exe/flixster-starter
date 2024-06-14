@@ -60,9 +60,11 @@ function MovieModal(props) {
 
     useEffect(() => {
         if (trailerData.length == 0) {
-            return;
+            setTrailerID("");
         }
-        setTrailerID(trailerData[0]["key"]);
+        else {
+            setTrailerID(trailerData[0]["key"]);
+        }
     }
     , [trailerData]);
 
