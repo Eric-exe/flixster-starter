@@ -66,4 +66,6 @@ footer {
 
 #movie-body {
   transition: margin-right 0.5s;
+  max-height: 91vh;
+  overflow-y: scroll;
 }

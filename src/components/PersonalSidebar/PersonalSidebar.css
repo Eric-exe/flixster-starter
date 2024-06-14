@@ -9,6 +9,7 @@
     background-color: rgb(43, 43, 43);
     color: white;
     overflow-x: hidden;
+    overflow-y: auto;
 }
 
 #sidebar-content {
