@@ -1,8 +1,7 @@
 .movie-card {
     border: 5px solid #575757;
-    margin: 5px;
     background-color: #f8f9fa;
-    margin: auto;
+    margin: 5%;
     width: 17vw;
     transition: transform 0.2s;
 }

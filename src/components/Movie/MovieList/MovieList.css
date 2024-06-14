@@ -1,7 +1,8 @@
 .movie-card-container {
-    display: grid;
-    margin: 1% 0;
-    background-color: #121315;
-    grid-template-columns: repeat(5, 1fr);
-    grid-gap: 10px;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
 }

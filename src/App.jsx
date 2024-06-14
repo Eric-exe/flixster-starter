@@ -113,10 +113,12 @@ function App() {
                     </div>
                 </div>
 
+                <div>
                 <MovieList 
                     movies={movieData} 
                     watchedFavorited={[moviesWatched, setMoviesWatched, moviesFavorited, setMoviesFavorited]}
                 />
+                </div>
 
                 <button className="button" id="load-button" onClick={loadMore} style={{margin: "10px auto"}}>
                     Load More
