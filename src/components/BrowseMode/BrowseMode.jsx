@@ -39,7 +39,6 @@ function BrowseMode(props) {
     const [genreModalOpened, setGenreModalOpened] = useState(false);
 
     const handleSortChange = (event) => {
-        console.log(event.target.value);
         props.apiSetFunct((oldApiReqData) => {
             return {
                 ...oldApiReqData,

@@ -10,8 +10,8 @@ MovieList.propTypes = {
 
 function MovieList(props) {
     let movies = props.movies;
-
     let badLink = 'https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/144694078/original/42073354247a976027d92a56ded126bc59235d60/send-you-a-random-png.png';
+    
     return (
         <>
             <section className="movie-card-container">

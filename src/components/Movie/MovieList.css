@@ -1,5 +1,4 @@
 .movie-card-container {
-    text-align: center;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;

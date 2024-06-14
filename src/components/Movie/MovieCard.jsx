@@ -12,7 +12,7 @@ MovieCard.propTypes = {
     movieRating: PropTypes.number.isRequired,
     movieOverview: PropTypes.string.isRequired,
     movieReleaseDate: PropTypes.string.isRequired,
-    watched: PropTypes.bool.isRequired,
+    watched: PropTypes.array.isRequired,
     favorited: PropTypes.array.isRequired
 }
 

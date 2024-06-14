@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import "./App.css";
 import BrowseMode from "./components/BrowseMode/BrowseMode";
 import SearchMode from "./components/SearchMode/SearchMode";
@@ -26,14 +26,14 @@ function App() {
 
     // [false: now playing, true: search]
     const [searchMode, setSearchMode] = useState(false); 
-
-    // global liked/favorite across sorts/filters
-    const [moviesWatched, setMoviesWatched] = useState(new Set());
-    const [moviesFavorited, setMoviesFavorited] = useState(new Set());
-
     const [sidebarOpened, setSidebarOpened] = useState(false);
 
     const { fetchPageData, fetchSearchData, fetchFilteredData } = api();
+
+    // global liked/favorite across sorts/filters
+    // stored as a object {movieID: movieTitle}
+    const [moviesWatched, setMoviesWatched] = useState({});
+    const [moviesFavorited, setMoviesFavorited] = useState({});
 
     useEffect(() => {
         // determine search mode
@@ -139,6 +139,8 @@ function App() {
                     <PersonalSidebar
                         sidebarOpened={sidebarOpened}
                         sidebarSetFunct={setSidebarOpened}
+                        watched={[moviesWatched, setMoviesWatched]}
+                        favorited={[moviesFavorited, setMoviesFavorited]}
                     />
                 </div>
             </main>

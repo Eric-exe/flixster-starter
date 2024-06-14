@@ -14,8 +14,10 @@ MovieModal.propTypes = {
     movieReleaseDate: propTypes.string.isRequired,
     movieRating: propTypes.number.isRequired,
     modalOpened: propTypes.bool.isRequired,
-    watched: propTypes.bool.isRequired, // [0] set, [1] funct
-    favorited: propTypes.bool.isRequired 
+
+    // 0: state variable, 1: funct
+    watched: propTypes.array.isRequired, 
+    favorited: propTypes.array.isRequired 
 }
 
 function MovieModal(props) {
@@ -35,15 +37,15 @@ function MovieModal(props) {
 
     const { fetchMovieData, fetchTrailerData } = api();
 
-    // update movie data whenever movieID is updated 
+    // update movie data whenever movieID is updated or when modal is opened
     // to reflect new movie info
     useEffect(() => {
         fetchMovieData(props.movieID, setMovieData);
         fetchTrailerData(props.movieID, setTrailerData);
 
         // update watched / favorited
-        setIsWatched(props.watched[0].has(props.movieID));
-        setIsFavorited(props.favorited[0].has(props.movieID));
+        setIsWatched(props['watched'][0].hasOwnProperty(props.movieID));
+        setIsFavorited(props['favorited'][0].hasOwnProperty(props.movieID));
     }, [props.movieID]);
 
     // update movie info when api data is updated
@@ -64,35 +66,34 @@ function MovieModal(props) {
     }
     , [trailerData]);
 
-
-    const updateItem = (itemSet, itemFunct, item, toRemove) => {
-        let oldSet = itemSet;
-        if (toRemove) {
-            if (oldSet.has(item)) {
-                oldSet.delete(item);
+    const updateKeyValue = (objFunct, key, value, isAdd) => {
+        objFunct((prev) => {
+            let newDict = {...prev};
+            if (isAdd) {
+                newDict[key] = value;
+            } else {
+                delete newDict[key];
             }
-        }
-        else {
-            oldSet.add(item);
-        }
-        itemFunct(oldSet);
+            return newDict;
+        });
     }
 
-    // update global watched/favorited set when local values are updated
+    // update global watched/favorited when local watched/favorited is updated
     useEffect(() => {
-        updateItem(props.watched[0], props.watched[1], props.movieID, !isWatched);
+        updateKeyValue(props.watched[1], props.movieID, props.movieTitle, isWatched);
     }, [isWatched]);
 
     useEffect(() => {
-        updateItem(props.favorited[0], props.favorited[1], props.movieID, !isFavorited);
+        updateKeyValue(props.favorited[1], props.movieID, props.movieTitle, isFavorited);
     }, [isFavorited]);
 
+    // update local watched/favorited
     const setWatched = () => {
-        setIsWatched((oldIsWatched) => !oldIsWatched);
+        setIsWatched((prev) => !prev);
     }
 
     const setFavorited = () => {
-        setIsFavorited((oldIsFavorited) => !oldIsFavorited);
+        setIsFavorited((prev) => !prev);
     }
 
     return (
